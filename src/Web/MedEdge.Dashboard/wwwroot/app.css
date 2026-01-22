@@ -1,0 +1,166 @@
+html, body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.mud-layout-root {
+    display: flex;
+    height: 100vh;
+}
+
+.device-card {
+    transition: all 0.3s ease-in-out;
+    border-left: 4px solid transparent;
+}
+
+.device-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 150, 57, 0.2) !important;
+}
+
+.mud-appbar {
+    background: linear-gradient(90deg, #009639 0%, #00b74f 100%);
+}
+
+/* Loading animation */
+.loading-progress {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    margin-left: -40px;
+    margin-top: -40px;
+}
+
+.loading-progress circle {
+    fill: none;
+    stroke: #009639;
+    stroke-width: 3;
+    stroke-dasharray: 250.6;
+    stroke-dashoffset: 0;
+    animation: progress 1s linear infinite;
+    transform-origin: 50px 50px;
+}
+
+.loading-progress circle:nth-child(2) {
+    stroke: #00b74f;
+    transform: rotate(-90deg);
+    animation: progress 1s linear infinite reverse;
+}
+
+@keyframes progress {
+    to {
+        stroke-dashoffset: -251;
+    }
+}
+
+.loading-progress-text {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    margin-left: -35px;
+    margin-top: 50px;
+    color: #009639;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 6px 12px;
+    position: fixed;
+    right: 0;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        cursor: hand;
+    }
+
+.blazor-error-boundary {
+    background-color: rgba(255, 205, 86, 0.1);
+    border: 1px solid rgba(255, 205, 86, 0.3);
+    color: rgba(255, 205, 86, 0.8);
+    padding: .5rem;
+    margin: 1rem 0;
+}
+
+/* Healthcare Color Scheme */
+:root {
+    --healthcare-green: #009639;
+    --healthcare-light-green: #00b74f;
+    --healthcare-white: #FFFFFF;
+    --healthcare-light-gray: #F5F5F5;
+    --healthcare-dark-gray: #757575;
+    --alert-red: #D32F2F;
+    --alert-orange: #F57C00;
+    --success-green: #388E3C;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #009639;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #00b74f;
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 600px) {
+    .mud-container-maxwidth-xs,
+    .mud-container-maxwidth-sm {
+        padding: 8px;
+    }
+}
+
+/* Smooth transitions */
+* {
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Alert styling */
+.mud-alert-error {
+    background-color: rgba(211, 47, 47, 0.1);
+    border-left: 4px solid #D32F2F;
+}
+
+.mud-alert-warning {
+    background-color: rgba(245, 124, 0, 0.1);
+    border-left: 4px solid #F57C00;
+}
+
+.mud-alert-success {
+    background-color: rgba(56, 142, 60, 0.1);
+    border-left: 4px solid #388E3C;
+}
+
+.mud-alert-info {
+    background-color: rgba(0, 150, 57, 0.1);
+    border-left: 4px solid #009639;
+}
