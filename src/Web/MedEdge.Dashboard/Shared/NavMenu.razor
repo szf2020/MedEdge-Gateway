@@ -1,0 +1,26 @@
+@namespace MedEdge.Dashboard.Shared
+
+<MudNavMenu>
+    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">
+        Dashboard
+    </MudNavLink>
+    <MudNavLink Href="fleet-view" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.LocalHospital">
+        Fleet Status
+    </MudNavLink>
+    <MudNavLink Href="vitals-monitor" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.TrendingUp">
+        Live Vitals
+    </MudNavLink>
+    <MudNavLink Href="fhir-inspector" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SearchBox">
+        FHIR Inspector
+    </MudNavLink>
+    <MudDivider Class="my-2" />
+    <MudNavLink Href="settings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Settings">
+        Settings
+    </MudNavLink>
+    <MudNavLink Href="help" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Help">
+        Help
+    </MudNavLink>
+</MudNavMenu>
+
+@code {
+}

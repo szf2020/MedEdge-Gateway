@@ -1,0 +1,16 @@
+@namespace MedEdge.Dashboard
+
+<Router AppAssembly="@typeof(Program).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <div style="padding: 20px;">
+                <MudText Typo="Typo.h4" Color="Color.Error">Page not found</MudText>
+                <MudText>Sorry, there's nothing at this address.</MudText>
+            </div>
+        </LayoutView>
+    </NotFound>
+</Router>

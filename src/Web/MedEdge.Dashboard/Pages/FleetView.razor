@@ -1,0 +1,192 @@
+@page "/fleet-view"
+@using System.Net.Http.Json
+@inject HttpClient Http
+@inject ISnackbar Snackbar
+@implements IAsyncDisposable
+
+<PageTitle>Fleet Status - MedEdge</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Lg">
+    <MudText Typo="Typo.h4" Class="mb-4">Device Fleet Status</MudText>
+
+    @if (isLoading)
+    {
+        <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
+        <MudText Class="mt-4">Loading device data...</MudText>
+    }
+    else if (devices == null || devices.Count == 0)
+    {
+        <MudAlert Severity="Severity.Warning">No devices found</MudAlert>
+    }
+    else
+    {
+        <MudGrid>
+            @foreach (var device in devices)
+            {
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Elevation="3" Class="device-card">
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">@device.DeviceId</MudText>
+                            </CardHeaderContent>
+                            <CardHeaderActions>
+                                <MudIconButton Icon="@GetStatusIcon(device.IsOnline)" Color="@GetStatusColor(device.IsOnline)" Size="Size.Large" />
+                            </CardHeaderActions>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudStack Spacing="1">
+                                <MudText Typo="Typo.body2">
+                                    <strong>Type:</strong> @device.Type
+                                </MudText>
+                                <MudText Typo="Typo.body2">
+                                    <strong>Manufacturer:</strong> @device.Manufacturer
+                                </MudText>
+                                <MudText Typo="Typo.body2">
+                                    <strong>Model:</strong> @device.Model
+                                </MudText>
+                                <MudText Typo="Typo.body2">
+                                    <strong>Serial:</strong> @device.SerialNumber
+                                </MudText>
+                                <MudText Typo="Typo.body2">
+                                    <strong>Patient:</strong> @device.CurrentPatientId
+                                </MudText>
+                                <MudDivider Class="my-2" />
+                                <MudText Typo="Typo.body2" Color="@GetStatusTextColor(device.IsOnline)">
+                                    <strong>Status:</strong> @(device.IsOnline ? "🟢 Online" : "🔴 Offline")
+                                </MudText>
+                                <MudText Typo="Typo.body2">
+                                    <strong>Last Telemetry:</strong> @FormatTime(device.LastTelemetryTime)
+                                </MudText>
+                                <MudText Typo="Typo.body2">
+                                    <strong>Alarms:</strong> @device.ActiveAlarmCount
+                                </MudText>
+                                @if (device.RiskLevel != "Low")
+                                {
+                                    <MudAlert Severity="@GetRiskSeverity(device.RiskLevel)" Dense="true" Class="mt-2">
+                                        Risk Level: @device.RiskLevel
+                                    </MudAlert>
+                                }
+                            </MudStack>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary" Size="Size.Small" OnClick="@(() => ViewDetails(device.DeviceId))">
+                                View Details
+                            </MudButton>
+                            <MudButton Variant="Variant.Text" Color="Color.Error" Size="Size.Small" OnClick="@(() => EmergencyStop(device.DeviceId))">
+                                Emergency Stop
+                            </MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            }
+        </MudGrid>
+    }
+</MudContainer>
+
+@code {
+    private List<DeviceStatus>? devices;
+    private bool isLoading = true;
+    private Timer? refreshTimer;
+
+    public class DeviceStatus
+    {
+        public string DeviceId { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
+        public string Manufacturer { get; set; } = string.Empty;
+        public string Model { get; set; } = string.Empty;
+        public string SerialNumber { get; set; } = string.Empty;
+        public string CurrentPatientId { get; set; } = string.Empty;
+        public bool IsOnline { get; set; }
+        public DateTime LastTelemetryTime { get; set; }
+        public int ActiveAlarmCount { get; set; }
+        public string RiskLevel { get; set; } = "Low";
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDevices();
+        refreshTimer = new Timer(async _ => await LoadDevices(), null, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
+    }
+
+    private async Task LoadDevices()
+    {
+        try
+        {
+            devices = await Http.GetFromJsonAsync<List<DeviceStatus>>("api/devices");
+            isLoading = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading devices: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private string GetStatusIcon(bool isOnline)
+    {
+        return isOnline ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Error;
+    }
+
+    private Color GetStatusColor(bool isOnline)
+    {
+        return isOnline ? Color.Success : Color.Error;
+    }
+
+    private Color GetStatusTextColor(bool isOnline)
+    {
+        return isOnline ? Color.Success : Color.Error;
+    }
+
+    private Severity GetRiskSeverity(string riskLevel)
+    {
+        return riskLevel switch
+        {
+            "Critical" => Severity.Error,
+            "High" => Severity.Warning,
+            "Moderate" => Severity.Info,
+            _ => Severity.Success
+        };
+    }
+
+    private string FormatTime(DateTime dateTime)
+    {
+        var diff = DateTime.UtcNow - dateTime;
+        if (diff.TotalSeconds < 60)
+            return $"{(int)diff.TotalSeconds}s ago";
+        if (diff.TotalMinutes < 60)
+            return $"{(int)diff.TotalMinutes}m ago";
+        return dateTime.ToString("g");
+    }
+
+    private async Task ViewDetails(string deviceId)
+    {
+        // Navigate to device details page
+    }
+
+    private async Task EmergencyStop(string deviceId)
+    {
+        var confirmed = await new MudMessageBox().Show();
+        if (confirmed)
+        {
+            try
+            {
+                var response = await Http.PostAsJsonAsync($"api/devices/{deviceId}/emergency-stop", new { });
+                if (response.IsSuccessStatusCode)
+                {
+                    Snackbar.Add($"Emergency stop sent to {deviceId}", Severity.Success);
+                    await LoadDevices();
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+            }
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        refreshTimer?.Dispose();
+        await Task.CompletedTask;
+    }
+}
