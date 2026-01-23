@@ -6,7 +6,7 @@ using MQTTnet.Exceptions;
 using System.Text.Json;
 using MedEdge.EdgeGateway.Models;
 using Polly;
-using Polly.CircuitBreaker;
+using Polly.Core;
 
 namespace MedEdge.EdgeGateway.Services;
 
@@ -16,7 +16,7 @@ public class MqttPublisherOptions
     public int Port { get; set; } = 1883;
     public bool UseTls { get; set; } = false;
     public string ClientId { get; set; } = "MedEdge-Gateway";
-    public string TopicPrefix { get; set; } = "bbraun/dialysis";
+    public string TopicPrefix { get; set; } = "mededge/dialysis";
 }
 
 public class MqttPublisherService : BackgroundService
