@@ -97,7 +97,7 @@ services:
       dockerfile: src/Cloud/MedEdge.IotHubSimulator/Dockerfile
     container_name: mededge-iot-hub
     ports:
-      - "6000:8080"
+      - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080
