@@ -31,6 +31,14 @@ COPY src/Web/MedEdge.Dashboard/nginx.conf /etc/nginx/nginx.conf
 # Copy published Blazor WASM app
 COPY --from=publish /app/publish/wwwroot /usr/share/nginx/html
 
+# Create environment configuration file from build args
+ARG DASHBOARD_USERNAME=guest
+ARG DASHBOARD_PASSWORD=changeme
+RUN echo "window.MedEdgeConfig = {" > /usr/share/nginx/html/config-env.js && \
+    echo "  dashboardUsername: '${DASHBOARD_USERNAME}'," >> /usr/share/nginx/html/config-env.js && \
+    echo "  dashboardPassword: '${DASHBOARD_PASSWORD}'" >> /usr/share/nginx/html/config-env.js && \
+    echo "};" >> /usr/share/nginx/html/config-env.js
+
 # Expose port
 EXPOSE 8080
 
