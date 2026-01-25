@@ -302,6 +302,24 @@
         border-top: 8px solid #22c55e;
     }
 
+    .connection-row {
+        position: absolute;
+        bottom: -28px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        pointer-events: none;
+        z-index: 5;
+    }
+
+    .arrow-wrapper {
+        min-width: 160px;
+        display: flex;
+        justify-content: center;
+    }
+
     .workflow-node {
         position: relative;
         background: white;
@@ -870,9 +888,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flow-arrow-down">
-                            <div class="flow-arrow-line"></div>
-                            <div class="flow-arrow-head"></div>
+
+                        <div class="connection-row">
+                            <div class="arrow-wrapper">
+                                <div class="flow-arrow-down" style="position: relative; bottom: 0; left: 0; transform: none;">
+                                    <div class="flow-arrow-line" style="background: #ef4444;"></div>
+                                    <div class="flow-arrow-head" style="border-top-color: #ef4444;"></div>
+                                </div>
+                            </div>
+                            <div class="arrow-wrapper">
+                                <div class="flow-arrow-down" style="position: relative; bottom: 0; left: 0; transform: none;">
+                                    <div class="flow-arrow-line"></div>
+                                    <div class="flow-arrow-head"></div>
+                                </div>
+                            </div>
+                            <div class="arrow-wrapper">
+                                <div class="flow-arrow-down" style="position: relative; bottom: 0; left: 0; transform: none;">
+                                    <div class="flow-arrow-line" style="background: #ef4444;"></div>
+                                    <div class="flow-arrow-head" style="border-top-color: #ef4444;"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -892,6 +927,7 @@
                                     <span class="status-dot @(GetNodeHealthClass("controller"))"></span>
                                     Modbus Active
                                 </div>
+                                <div style="position: absolute; right: -25px; top: 50%; transform: translateY(-50%); color: #ef4444; font-size: 32px; font-weight: bold; z-index: 10;">→</div>
                             </div>
 
                             <div class="workflow-node active @(GetNodeStatus("edge-gateway-medical"))" @onclick="@(() => ShowNodeDetails("edge-gateway-medical"))">
