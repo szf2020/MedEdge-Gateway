@@ -73,3 +73,6 @@ coverage/
 
 # Research
 Research/
+
+# Development info (screenshots, notes, etc.)
+.dev_info/

@@ -24,14 +24,93 @@
     .header-section {
         background: linear-gradient(135deg, var(--mud-palette-primary) 0%, #007a2e 100%);
         border-radius: 12px;
-        padding: 12px 24px;
+        padding: 16px 24px;
         color: white;
         box-shadow: 0 8px 24px rgba(0, 150, 57, 0.25);
         position: relative;
         overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 64px;
     }
 
-    /* Adjust MudBlazor padding more safely */
+    .header-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .header-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+
+    .header-text-container {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+    }
+
+    .header-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0;
+        color: white;
+    }
+
+    .header-subtitle {
+        font-size: 11px;
+        color: rgba(255,255,255,0.8);
+        margin: 0;
+    }
+
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .version-badge {
+        color: rgba(255,255,255,0.7);
+        font-size: 11px;
+        font-weight: 700;
+        border: 1px solid rgba(255,255,255,0.3);
+        padding: 4px 8px;
+        border-radius: 4px;
+        background: rgba(0,0,0,0.15);
+    }
+
+    .realtime-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .live-dot {
+        width: 6px;
+        height: 6px;
+        background: #22c55e;
+        border-radius: 50%;
+        animation: blink 1s infinite;
+    }
+
+    @@keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+    }
+
     .mud-main-content {
         padding-top: 8px !important;
     }
@@ -70,6 +149,7 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         position: relative;
         overflow: hidden;
+        cursor: pointer;
     }
 
     .stat-card:hover {
@@ -123,7 +203,7 @@
         color: var(--mud-palette-text-secondary);
     }
 
-    /* Interactive Workflow Diagram */
+    /* Workflow Section */
     .workflow-section {
         background: white;
         border-radius: 16px;
@@ -156,14 +236,14 @@
     .layer-container {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 20px;
         position: relative;
     }
 
     .workflow-layer {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 12px;
     }
 
     .layer-header {
@@ -191,6 +271,35 @@
         gap: 16px;
         justify-content: center;
         flex-wrap: wrap;
+        position: relative;
+    }
+
+    /* Flow arrows between layers */
+    .flow-arrow-down {
+        position: absolute;
+        bottom: -28px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        pointer-events: none;
+        z-index: 5;
+    }
+
+    .flow-arrow-line {
+        width: 2px;
+        height: 20px;
+        background: linear-gradient(to bottom, var(--mud-palette-primary), #22c55e);
+    }
+
+    .flow-arrow-head {
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 8px solid #22c55e;
     }
 
     .workflow-node {
@@ -308,30 +417,6 @@
         50% { transform: scale(1.2); opacity: 0.8; }
     }
 
-    .data-flow {
-        position: absolute;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        pointer-events: none;
-        z-index: 10;
-    }
-
-    .flow-particle {
-        width: 8px;
-        height: 8px;
-        background: var(--mud-palette-primary);
-        border-radius: 50%;
-        animation: flow-vertical 2s infinite;
-    }
-
-    @@keyframes flow-vertical {
-        0% { transform: translateY(0); opacity: 0; }
-        10% { opacity: 1; }
-        90% { opacity: 1; }
-        100% { transform: translateY(60px); opacity: 0; }
-    }
-
     /* Detail Panels */
     .detail-panel {
         background: white;
@@ -380,6 +465,69 @@
         font-size: 12px;
         color: var(--mud-palette-text-secondary);
         margin-top: 4px;
+    }
+
+    /* Service List */
+    .service-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .service-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #f8fafc;
+        border-radius: 8px;
+        padding: 12px 16px;
+        transition: all 0.2s ease;
+    }
+
+    .service-item:hover {
+        background: #f1f5f9;
+        transform: translateX(4px);
+    }
+
+    .service-status {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+
+    .service-status.online {
+        background: #22c55e;
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+    }
+
+    .service-status.offline {
+        background: #ef4444;
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
+    }
+
+    .service-status.warning {
+        background: #f59e0b;
+        box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);
+    }
+
+    .service-info {
+        flex: 1;
+    }
+
+    .service-name {
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .service-description {
+        font-size: 12px;
+        color: var(--mud-palette-text-secondary);
+    }
+
+    .service-url {
+        font-size: 11px;
+        color: var(--mud-palette-primary);
+        font-family: monospace;
     }
 
     /* Device List */
@@ -458,6 +606,88 @@
         color: #991b1b;
     }
 
+    /* Supply Items */
+    .supply-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .supply-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #f8fafc;
+        border-radius: 8px;
+        padding: 12px 16px;
+    }
+
+    .supply-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: var(--mud-palette-primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+
+    .supply-info {
+        flex: 1;
+    }
+
+    .supply-name {
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .supply-status {
+        font-size: 12px;
+        color: var(--mud-palette-text-secondary);
+    }
+
+    .supply-level {
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .supply-level.good {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .supply-level.low {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .supply-level.critical {
+        background: #fecaca;
+        color: #991b1b;
+    }
+
+    /* Security Badge */
+    .security-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        color: white;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .security-badge.secure {
+        background: linear-gradient(135deg, #166534 0%, #22c55e 100%);
+    }
+
     /* Responsive */
     @@media (max-width: 768px) {
         .stat-cards {
@@ -472,30 +702,17 @@
         .workflow-node {
             min-width: 100%;
         }
-    }
 
-    .realtime-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 10px;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.2);
-        font-size: 11px;
-        font-weight: 600;
-    }
+        .header-section {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
 
-    .live-dot {
-        width: 6px;
-        height: 6px;
-        background: #22c55e;
-        border-radius: 50%;
-        animation: blink 1s infinite;
-    }
-
-    @@keyframes blink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.3; }
+        .header-right {
+            width: 100%;
+            justify-content: space-between;
+        }
     }
 
     .vital-card {
@@ -537,35 +754,31 @@
 <div class="dashboard-container">
     <!-- Header Section -->
     <div class="header-section">
-        <MudGrid>
-            <MudItem xs="12" md="6">
-                <div style="display: flex; align-items: center; gap: 12px; height: 32px;">
-                    <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px;">
-                        🏥
-                    </div>
-                    <div>
-                        <MudText Typo="Typo.h6" Style="color: white; margin: 0; font-weight: 700; line-height: 1.1;">MedEdge System Dashboard</MudText>
-                        <div style="color: rgba(255,255,255,0.8); font-size: 0.65rem; line-height: 1;">Real-time Monitoring Platform</div>
-                    </div>
-                </div>
-            </MudItem>
-            <MudItem xs="12" md="6" Class="d-flex align-center justify-end">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <div style="color: rgba(255,255,255,0.7); font-size: 0.65rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); padding: 1px 6px; border-radius: 3px; background: rgba(0,0,0,0.1);">
-                        RELEASE: v1.2.0-beta
-                    </div>
-                    <div class="realtime-badge" style="padding: 2px 8px;">
-                        <span class="live-dot"></span>
-                        <span style="font-size: 10px;">LIVE</span>
-                    </div>
-                </div>
-            </MudItem>
-        </MudGrid>
+        <div class="header-content">
+            <div class="header-icon">
+                🏥
+            </div>
+            <div class="header-text-container">
+                <h1 class="header-title">MedEdge System Dashboard</h1>
+                <p class="header-subtitle">Real-time Medical IoT Monitoring & Supply Chain Management</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="security-badge secure">
+                <span>🔒</span>
+                <span>TPM Enabled</span>
+            </div>
+            <div class="version-badge">RELEASE: v1.2.0-beta</div>
+            <div class="realtime-badge">
+                <span class="live-dot"></span>
+                <span>LIVE</span>
+            </div>
+        </div>
     </div>
 
     <!-- Statistics Cards -->
     <div class="stat-cards">
-        <div class="stat-card">
+        <div class="stat-card" @onclick="@(() => ShowNodeDetails("medical-devices"))">
             <div class="stat-icon" style="width: 44px; height: 44px; font-size: 20px;">📱</div>
             <div class="stat-content">
                 <div class="stat-label">Total Devices</div>
@@ -574,21 +787,21 @@
             </div>
         </div>
 
-        <div class="stat-card">
-            <div class="stat-icon" style="width: 44px; height: 44px; font-size: 20px;">🌐</div>
+        <div class="stat-card" @onclick="@(() => ShowNodeDetails("supply-center"))">
+            <div class="stat-icon" style="width: 44px; height: 44px; font-size: 20px;">📦</div>
             <div class="stat-content">
-                <div class="stat-label">Gateway</div>
-                <div class="stat-value" style="font-size: 20px;">@gatewayStatusText</div>
-                <div class="stat-subtitle">@gatewayMessages.ToString("F0") msg/sec</div>
+                <div class="stat-label">Supply Center</div>
+                <div class="stat-value" style="font-size: 24px;">@supplyItemsCount</div>
+                <div class="stat-subtitle">@lowSupplyCount items low</div>
             </div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" @onclick="@(() => ShowNodeDetails("services"))">
             <div class="stat-icon" style="width: 44px; height: 44px; font-size: 20px;">⚡</div>
             <div class="stat-content">
                 <div class="stat-label">Services</div>
                 <div class="stat-value" style="font-size: 24px;">@healthyServices/@totalServices</div>
-                <div class="stat-subtitle">operational</div>
+                <div class="stat-subtitle">containers running</div>
             </div>
         </div>
 
@@ -615,13 +828,13 @@
                 </MudText>
             </div>
 
-            <div class="workflow-canvas" style="min-height: 400px; padding: 20px;">
+            <div class="workflow-canvas" style="min-height: 450px; padding: 20px;">
                 <div class="layer-container">
-                    <!-- Edge Layer -->
-                    <div class="workflow-layer">
+                    <!-- Facility Layer -->
+                    <div class="workflow-layer" style="position: relative;">
                         <div class="layer-header">
-                            <div class="layer-indicator" style="background: #3b82f6;"></div>
-                            <span class="layer-name">Edge Layer</span>
+                            <div class="layer-indicator" style="background: #6366f1;"></div>
+                            <span class="layer-name">Facility Layer</span>
                         </div>
                         <div class="layer-content">
                             <div class="workflow-node @(GetNodeStatus("medical-devices"))" @onclick="@(() => ShowNodeDetails("medical-devices"))">
@@ -631,10 +844,34 @@
                                 <div class="node-name">Medical Devices</div>
                                 <div class="node-status">
                                     <span class="status-dot @(GetNodeHealthClass("medical-devices"))"></span>
-                                    @totalDevices
+                                    @totalDevices units
                                 </div>
                             </div>
 
+                            <div class="workflow-node @(GetNodeStatus("supply-center"))" @onclick="@(() => ShowNodeDetails("supply-center"))">
+                                <div class="node-icon @(GetNodeHealthClass("supply-center"))">
+                                    <MudIcon Icon="@Icons.Material.Filled.Inventory2" />
+                                </div>
+                                <div class="node-name">Supply Center</div>
+                                <div class="node-status">
+                                    <span class="status-dot @(GetNodeHealthClass("supply-center"))"></span>
+                                    AI Managed
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flow-arrow-down">
+                            <div class="flow-arrow-line"></div>
+                            <div class="flow-arrow-head"></div>
+                        </div>
+                    </div>
+
+                    <!-- Edge Layer -->
+                    <div class="workflow-layer" style="position: relative;">
+                        <div class="layer-header">
+                            <div class="layer-indicator" style="background: #3b82f6;"></div>
+                            <span class="layer-name">Edge Layer</span>
+                        </div>
+                        <div class="layer-content">
                             <div class="workflow-node active @(GetNodeStatus("edge-gateway"))" @onclick="@(() => ShowNodeDetails("edge-gateway"))">
                                 <div class="node-icon @(GetNodeHealthClass("edge-gateway"))">
                                     <MudIcon Icon="@Icons.Material.Filled.Router" />
@@ -646,10 +883,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="flow-arrow-down">
+                            <div class="flow-arrow-line"></div>
+                            <div class="flow-arrow-head"></div>
+                        </div>
                     </div>
 
                     <!-- Messaging Layer -->
-                    <div class="workflow-layer">
+                    <div class="workflow-layer" style="position: relative;">
                         <div class="layer-header">
                             <div class="layer-indicator" style="background: #8b5cf6;"></div>
                             <span class="layer-name">Messaging Layer</span>
@@ -666,15 +907,30 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="flow-arrow-down">
+                            <div class="flow-arrow-line"></div>
+                            <div class="flow-arrow-head"></div>
+                        </div>
                     </div>
 
                     <!-- Cloud Layer -->
                     <div class="workflow-layer">
                         <div class="layer-header">
                             <div class="layer-indicator" style="background: #22c55e;"></div>
-                            <span class="layer-name">Cloud Layer</span>
+                            <span class="layer-name">Cloud & Services Layer</span>
                         </div>
                         <div class="layer-content">
+                            <div class="workflow-node active @(GetNodeStatus("services"))" @onclick="@(() => ShowNodeDetails("services"))">
+                                <div class="node-icon @(GetNodeHealthClass("services"))">
+                                    <MudIcon Icon="@Icons.Material.Filled.Apps" />
+                                </div>
+                                <div class="node-name">Services</div>
+                                <div class="node-status">
+                                    <span class="status-dot @(GetNodeHealthClass("services"))"></span>
+                                    @healthyServices/@totalServices
+                                </div>
+                            </div>
+
                             <div class="workflow-node active @(GetNodeStatus("iot-hub"))" @onclick="@(() => ShowNodeDetails("iot-hub"))">
                                 <div class="node-icon @(GetNodeHealthClass("iot-hub"))">
                                     <MudIcon Icon="@Icons.Material.Filled.Cloud" />
@@ -682,7 +938,7 @@
                                 <div class="node-name">IoT Hub</div>
                                 <div class="node-status">
                                     <span class="status-dot @(GetNodeHealthClass("iot-hub"))"></span>
-                                    Online
+                                    TPM Ready
                                 </div>
                             </div>
 
@@ -704,7 +960,7 @@
                                 <div class="node-name">AI Engine</div>
                                 <div class="node-status">
                                     <span class="status-dot @(GetNodeHealthClass("ai-engine"))"></span>
-                                    Active
+                                    Predictive
                                 </div>
                             </div>
                         </div>
@@ -725,6 +981,53 @@
                         </div>
                         <MudIconButton Icon="@Icons.Material.Filled.Close" Size="Size.Small" OnClick="@CloseNodeDetails" />
                     </div>
+
+                    @if (selectedNodeDetails.NodeId == "services")
+                    {
+                        <MudText Typo="Typo.body2" Class="mb-4">Container service status</MudText>
+                        <div class="service-list">
+                            @foreach (var service in services)
+                            {
+                                <div class="service-item">
+                                    <div class="service-status @(service.Status.ToLower())"></div>
+                                    <div class="service-info">
+                                        <div class="service-name">@service.Name</div>
+                                        <div class="service-description">@service.Description</div>
+                                        <div class="service-url">@service.Url</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <MudText Typo="Typo.caption" Class="mt-4" Style="color: var(--mud-palette-primary);">
+                            🔒 All services run in isolated containers with TPM-backed authentication
+                        </MudText>
+                    }
+
+                    @if (selectedNodeDetails.NodeId == "supply-center")
+                    {
+                        <MudText Typo="Typo.body2" Class="mb-4">AI-Powered Supply Chain Management</MudText>
+                        <div class="detail-card mb-3" style="border-left-color: #3b82f6;">
+                            <div class="detail-title">Status</div>
+                            <div class="detail-value" style="font-size: 18px; color: #3b82f6;">AI Active</div>
+                            <div class="detail-subtitle">Predictive consumption forecasting</div>
+                        </div>
+                        <div class="supply-list">
+                            @foreach (var item in supplyItems)
+                            {
+                                <div class="supply-item">
+                                    <div class="supply-icon">@item.Icon</div>
+                                    <div class="supply-info">
+                                        <div class="supply-name">@item.Name</div>
+                                        <div class="supply-status">@item.Status</div>
+                                    </div>
+                                    <div class="supply-level @(item.LevelClass)">@item.Level</div>
+                                </div>
+                            }
+                        </div>
+                        <MudText Typo="Typo.caption" Class="mt-4" Style="color: var(--mud-palette-text-secondary);">
+                            🤖 AI predicts @predictedRestock restocks this week based on device usage patterns
+                        </MudText>
+                    }
 
                     @if (selectedNodeDetails.NodeId == "medical-devices")
                     {
@@ -762,6 +1065,25 @@
                         </div>
                     }
 
+                    @if (selectedNodeDetails.NodeId == "iot-hub")
+                    {
+                        <div class="device-list">
+                            <div class="detail-card mb-2" style="border-left-color: #3b82f6;">
+                                <div class="detail-title">Device Provisioning</div>
+                                <div class="detail-value" style="font-size: 18px;">Auto (DPS)</div>
+                            </div>
+                            <div class="detail-card mb-2" style="border-left-color: #22c55e;">
+                                <div class="detail-title">Security</div>
+                                <div class="detail-value" style="font-size: 18px;">TPM 2.0</div>
+                                <div class="detail-subtitle">Hardware-backed authentication</div>
+                            </div>
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Twin Sync</div>
+                                <div class="detail-value" style="font-size: 18px;">Real-time</div>
+                            </div>
+                        </div>
+                    }
+
                     @if (selectedNodeDetails.NodeId == "fhir-api")
                     {
                         <div class="device-list">
@@ -776,6 +1098,26 @@
                             <div class="detail-card mb-2">
                                 <div class="detail-title">Endpoint</div>
                                 <div class="detail-value" style="font-size: 14px;">@(_config?.FhirBaseUrl ?? "N/A")</div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (selectedNodeDetails.NodeId == "ai-engine")
+                    {
+                        <div class="device-list">
+                            <div class="detail-card mb-2" style="border-left-color: #8b5cf6;">
+                                <div class="detail-title">Predictive Maintenance</div>
+                                <div class="detail-value" style="font-size: 18px;">Active</div>
+                                <div class="detail-subtitle">AI forecasts device failures</div>
+                            </div>
+                            <div class="detail-card mb-2" style="border-left-color: #3b82f6;">
+                                <div class="detail-title">Consumption Forecast</div>
+                                <div class="detail-value" style="font-size: 18px;">Enabled</div>
+                                <div class="detail-subtitle">Supplies auto-replenishment</div>
+                            </div>
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Anomaly Detection</div>
+                                <div class="detail-value" style="font-size: 18px;">Real-time</div>
                             </div>
                         </div>
                     }
@@ -832,19 +1174,24 @@
     <!-- Quick Actions -->
     <div class="detail-panel" style="padding: 16px;">
         <MudGrid Spacing="2">
-            <MudItem xs="12" sm="4">
+            <MudItem xs="12" sm="3">
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Size="Size.Small" StartIcon="@Icons.Material.Filled.Refresh" OnClick="@RefreshAll">
                     Refresh All
                 </MudButton>
             </MudItem>
-            <MudItem xs="12" sm="4">
-                <MudButton Variant="Variant.Filled" Color="Color.Success" FullWidth="true" Size="Size.Small" StartIcon="@Icons.Material.Filled.TrendingUp" OnClick="@(() => ShowNodeDetails("vitals-preview"))">
-                    Show Live Vitals
+            <MudItem xs="12" sm="3">
+                <MudButton Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Size="Size.Small" StartIcon="@Icons.Material.Filled.Apps" OnClick="@(() => ShowNodeDetails("services"))">
+                    View Services
                 </MudButton>
             </MudItem>
-            <MudItem xs="12" sm="4">
-                <MudButton Variant="Variant.Filled" Color="Color.Info" FullWidth="true" Size="Size.Small" StartIcon="@Icons.Material.Filled.Info" OnClick="@(() => ShowNodeDetails("dashboard"))">
-                    Dashboard Info
+            <MudItem xs="12" sm="3">
+                <MudButton Variant="Variant.Filled" Color="Color.Success" FullWidth="true" Size="Size.Small" StartIcon="@Icons.Material.Filled.Inventory2" OnClick="@(() => ShowNodeDetails("supply-center"))">
+                    Supply Center
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12" sm="3">
+                <MudButton Variant="Variant.Filled" Color="Color.Tertiary" FullWidth="true" Size="Size.Small" StartIcon="@Icons.Material.Filled.TrendingUp" OnClick="@(() => ShowNodeDetails("vitals-preview"))">
+                    Live Vitals
                 </MudButton>
             </MudItem>
         </MudGrid>
@@ -878,6 +1225,10 @@
     private NodeDetailInfo? selectedNodeDetails;
     private double sessionDuration => (DateTime.UtcNow - sessionStart).TotalMinutes;
     private int totalUpdates = 0;
+    private int supplyItemsCount = 8;
+    private int lowSupplyCount = 2;
+    private int predictedRestock = 3;
+    private List<SupplyItem> supplyItems = new();
 
     // Vitals data
     private double bloodFlow = 320;
@@ -902,6 +1253,7 @@
         public string Description { get; set; } = string.Empty;
         public string Url { get; set; } = string.Empty;
         public string Status { get; set; } = "Unknown";
+        public string ContainerName { get; set; } = string.Empty;
     }
 
     public class NodeDetailInfo
@@ -910,10 +1262,20 @@
         public string Title { get; set; } = string.Empty;
     }
 
+    public class SupplyItem
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Icon { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
+        public string Level { get; set; } = string.Empty;
+        public string LevelClass { get; set; } = string.Empty;
+    }
+
     protected override async Task OnInitializedAsync()
     {
         _config = await ConfigService.LoadConfigurationAsync();
         InitializeServices();
+        InitializeSupplyItems();
         await RefreshAll();
         refreshTimer = new System.Timers.Timer(3000);
         refreshTimer.Elapsed += async (sender, e) => await RefreshAll();
@@ -925,16 +1287,84 @@
     {
         services = new List<ServiceInfo>
         {
-            new ServiceInfo { Name = "IoT Hub Simulator", Description = "Device registry, twins, direct methods", Url = "http://localhost:8080", Status = "Online" },
-            new ServiceInfo { Name = "FHIR R4 API", Description = "Healthcare data exchange", Url = _config?.FhirBaseUrl ?? "http://localhost:5001", Status = "Online" },
-            new ServiceInfo { Name = "MQTT Broker", Description = "Eclipse Mosquitto", Url = "localhost:1883", Status = "Running" },
-            new ServiceInfo { Name = "Edge Gateway", Description = "Modbus → MQTT translation", Url = "Docker Container", Status = "Running" },
-            new ServiceInfo { Name = "AI Clinical Engine", Description = "Real-time anomaly detection", Url = "Docker Container", Status = "Online" },
-            new ServiceInfo { Name = "SignalR Hub", Description = "Real-time telemetry streaming", Url = _config?.SignalHubUrl ?? "http://localhost:5001/hubs/telemetry", Status = "Connected" }
+            new ServiceInfo {
+                Name = "MQTT Broker",
+                Description = "Eclipse Mosquitto - Message Queue",
+                Url = "localhost:1883",
+                Status = "Running",
+                ContainerName = "medEdge-mqtt"
+            },
+            new ServiceInfo {
+                Name = "Device Simulator",
+                Description = "Modbus device simulation",
+                Url = "Container",
+                Status = "Running",
+                ContainerName = "medEdge-simulator"
+            },
+            new ServiceInfo {
+                Name = "Edge Gateway",
+                Description = "Modbus → MQTT translation",
+                Url = "Container",
+                Status = "Running",
+                ContainerName = "medEdge-gateway"
+            },
+            new ServiceInfo {
+                Name = "FHIR R4 API",
+                Description = "Healthcare data exchange",
+                Url = ":5001",
+                Status = "Online",
+                ContainerName = "medEdge-fhir-api"
+            },
+            new ServiceInfo {
+                Name = "Transform Service",
+                Description = "MQTT → FHIR transformation",
+                Url = "Container",
+                Status = "Running",
+                ContainerName = "medEdge-transform"
+            },
+            new ServiceInfo {
+                Name = "AI Clinical Engine",
+                Description = "Predictive maintenance & forecasting",
+                Url = "Container",
+                Status = "Online",
+                ContainerName = "medEdge-ai-engine"
+            },
+            new ServiceInfo {
+                Name = "IoT Hub Simulator",
+                Description = "Device registry, twins, DPS, TPM",
+                Url = ":8080",
+                Status = "Online",
+                ContainerName = "mededge-iot-hub"
+            },
+            new ServiceInfo {
+                Name = "Web Dashboard",
+                Description = "System monitoring interface",
+                Url = ":5000",
+                Status = "Running",
+                ContainerName = "medEdge-dashboard"
+            }
         };
 
         totalServices = services.Count;
         healthyServices = services.Count(s => s.Status == "Online" || s.Status == "Running" || s.Status == "Connected");
+    }
+
+    private void InitializeSupplyItems()
+    {
+        supplyItems = new List<SupplyItem>
+        {
+            new SupplyItem { Name = "Dialysis Filters", Icon = "🔧", Status = "In stock", Level = "Good", LevelClass = "good" },
+            new SupplyItem { Name = "Blood Line Sets", Icon = "🩸", Status = "Adequate", Level = "Good", LevelClass = "good" },
+            new SupplyItem { Name = "Saline Solution", Icon = "💧", Status = "Running low", Level = "Low", LevelClass = "low" },
+            new SupplyItem { Name = "Heparin Vials", Icon = "💉", Status = "Critical", Level = "Critical", LevelClass = "critical" },
+            new SupplyItem { Name = "Disinfectant", Icon = "🧴", Status = "In stock", Level = "Good", LevelClass = "good" },
+            new SupplyItem { Name = "Gloves (Box)", Icon = "🧤", Status = "Running low", Level = "Low", LevelClass = "low" },
+            new SupplyItem { Name = "Syringes", Icon = "💉", Status = "In stock", Level = "Good", LevelClass = "good" },
+            new SupplyItem { Name = "Wound Dressings", Icon = "🩹", Status = "In stock", Level = "Good", LevelClass = "good" }
+        };
+
+        supplyItemsCount = supplyItems.Count;
+        lowSupplyCount = supplyItems.Count(s => s.LevelClass == "low" || s.LevelClass == "critical");
     }
 
     private async Task RefreshAll()
@@ -943,7 +1373,8 @@
             RefreshGatewayStats(),
             LoadEdgeDevices(),
             UpdateVitals(),
-            CheckServiceHealth()
+            CheckServiceHealth(),
+            UpdateSupplyLevels()
         );
 
         totalUpdates++;
@@ -1038,42 +1469,78 @@
 
     private async Task CheckServiceHealth()
     {
+        var random = new Random();
+        // Simulate service health variations
+        foreach (var service in services)
+        {
+            if (random.Next(100) > 95)
+            {
+                service.Status = "Warning";
+            }
+            else
+            {
+                service.Status = service.Name.Contains("API") || service.Name.Contains("Engine") || service.Name.Contains("Hub") ? "Online" : "Running";
+            }
+        }
         healthyServices = services.Count(s => s.Status == "Online" || s.Status == "Running" || s.Status == "Connected");
+        await Task.CompletedTask;
+    }
+
+    private async Task UpdateSupplyLevels()
+    {
+        var random = new Random();
+        predictedRestock = random.Next(1, 5);
         await Task.CompletedTask;
     }
 
     private string GetNodeStatus(string nodeId)
     {
         if (nodeId == "medical-devices") return onlineDevices > 0 ? "status-healthy" : "status-warning";
+        if (nodeId == "supply-center") return lowSupplyCount == 0 ? "status-healthy" : "status-warning";
+        if (nodeId == "services") return healthyServices == totalServices ? "status-healthy" : "status-warning";
         if (nodeId == "edge-gateway") return gatewayHealth == "healthy" ? "status-healthy" : "status-warning";
         if (nodeId == "mqtt-broker") return mqttStatus == "healthy" ? "status-healthy" : "status-warning";
         if (nodeId == "iot-hub") return "status-healthy";
         if (nodeId == "fhir-api") return "status-healthy";
         if (nodeId == "ai-engine") return "status-healthy";
         if (nodeId == "dashboard") return "status-healthy";
-        if (nodeId == "mobile") return "status-warning";
         return "";
     }
 
     private string GetNodeHealthClass(string nodeId)
     {
         if (nodeId == "medical-devices") return onlineDevices > 0 ? "healthy" : "warning";
+        if (nodeId == "supply-center") return lowSupplyCount == 0 ? "healthy" : "warning";
+        if (nodeId == "services") return healthyServices == totalServices ? "healthy" : "warning";
         if (nodeId == "edge-gateway") return gatewayHealth;
         if (nodeId == "mqtt-broker") return mqttStatus;
         if (nodeId == "iot-hub") return "healthy";
         if (nodeId == "fhir-api") return "healthy";
         if (nodeId == "ai-engine") return "healthy";
         if (nodeId == "dashboard") return "healthy";
-        if (nodeId == "mobile") return "warning";
         return "healthy";
     }
 
     private void ShowNodeDetails(string nodeId)
     {
+        var titleMap = new Dictionary<string, string>
+        {
+            { "medical-devices", "Medical Devices" },
+            { "supply-center", "Supply Center" },
+            { "services", "Container Services" },
+            { "edge-gateway", "Edge Gateway" },
+            { "mqtt-broker", "MQTT Broker" },
+            { "iot-hub", "IoT Hub Simulator" },
+            { "fhir-api", "FHIR API" },
+            { "ai-engine", "AI Engine" },
+            { "dashboard", "Dashboard Info" },
+            { "vitals-preview", "Live Vitals" }
+        };
+
         selectedNodeDetails = new NodeDetailInfo
         {
             NodeId = nodeId,
-            Title = nodeId.Replace("-", " ").ToUpperInvariant()
+            Title = titleMap.TryGetValue(nodeId, out var title) ? title : nodeId.ToUpperInvariant()
         };
         StateHasChanged();
     }
