@@ -1,4 +1,4 @@
-namespace MedEdge.EdgeGateway.Models;
+namespace MedEdge.Core.DTOs;
 
 public record TelemetryMessage(
     string DeviceId,

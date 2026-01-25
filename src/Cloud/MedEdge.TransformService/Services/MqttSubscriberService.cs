@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using MQTTnet;
 using MQTTnet.Client;
 using System.Text.Json;
-using MedEdge.EdgeGateway.Models;
+using MedEdge.Core.DTOs;
 using System.Threading.Channels;
 
 namespace MedEdge.TransformService.Services;

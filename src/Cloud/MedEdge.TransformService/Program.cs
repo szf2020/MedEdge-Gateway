@@ -1,4 +1,4 @@
-using MedEdge.EdgeGateway.Models;
+using MedEdge.Core.DTOs;
 using MedEdge.TransformService;
 using MedEdge.TransformService.Services;
 using Serilog;

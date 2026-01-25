@@ -4,7 +4,7 @@ using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Exceptions;
 using System.Text.Json;
-using MedEdge.EdgeGateway.Models;
+using MedEdge.Core.DTOs;
 using Polly;
 using System.Threading.Channels;
 

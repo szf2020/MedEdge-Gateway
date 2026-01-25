@@ -1,4 +1,4 @@
-using MedEdge.EdgeGateway.Models;
+using MedEdge.Core.DTOs;
 using MedEdge.TransformService.Services;
 using Microsoft.Extensions.Logging;
 

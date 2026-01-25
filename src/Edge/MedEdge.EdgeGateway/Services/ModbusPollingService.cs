@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using NModbus;
 using NModbus.IO;
 using System.Net.Sockets;
-using MedEdge.EdgeGateway.Models;
+using MedEdge.Core.DTOs;
 using System.Threading.Channels;
 
 namespace MedEdge.EdgeGateway.Services;

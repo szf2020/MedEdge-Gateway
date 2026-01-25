@@ -1,4 +1,4 @@
-using MedEdge.EdgeGateway.Models;
+using MedEdge.Core.DTOs;
 using MedEdge.EdgeGateway.Services;
 using Serilog;
 using System.Threading.Channels;
