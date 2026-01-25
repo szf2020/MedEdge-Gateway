@@ -768,7 +768,7 @@
                 <span>🔒</span>
                 <span>TPM Enabled</span>
             </div>
-            <div class="version-badge">RELEASE: v1.2.0-beta</div>
+            <div class="version-badge">RELEASE: v1.2.1-beta</div>
             <div class="realtime-badge">
                 <span class="live-dot"></span>
                 <span>LIVE</span>
@@ -844,7 +844,18 @@
                                 <div class="node-name">Medical Devices</div>
                                 <div class="node-status">
                                     <span class="status-dot @(GetNodeHealthClass("medical-devices"))"></span>
-                                    @totalDevices units
+                                    @onlineDevices/@totalDevices Connected
+                                </div>
+                            </div>
+
+                            <div class="workflow-node @(GetNodeStatus("monitoring-center"))" @onclick="@(() => ShowNodeDetails("monitoring-center"))">
+                                <div class="node-icon @(GetNodeHealthClass("monitoring-center"))">
+                                    <MudIcon Icon="@Icons.Material.Filled.MonitorHeart" />
+                                </div>
+                                <div class="node-name">Monitoring Center</div>
+                                <div class="node-status">
+                                    <span class="status-dot @(GetNodeHealthClass("monitoring-center"))"></span>
+                                    @activeMonitors Active
                                 </div>
                             </div>
 
@@ -855,7 +866,7 @@
                                 <div class="node-name">Supply Center</div>
                                 <div class="node-status">
                                     <span class="status-dot @(GetNodeHealthClass("supply-center"))"></span>
-                                    AI Managed
+                                    @supplyItemsCount Items
                                 </div>
                             </div>
                         </div>
@@ -872,14 +883,36 @@
                             <span class="layer-name">Edge Layer</span>
                         </div>
                         <div class="layer-content">
-                            <div class="workflow-node active @(GetNodeStatus("edge-gateway"))" @onclick="@(() => ShowNodeDetails("edge-gateway"))">
-                                <div class="node-icon @(GetNodeHealthClass("edge-gateway"))">
+                            <div class="workflow-node @(GetNodeStatus("controller"))" @onclick="@(() => ShowNodeDetails("controller"))">
+                                <div class="node-icon @(GetNodeHealthClass("controller"))">
+                                    <MudIcon Icon="@Icons.Material.Filled.SettingsInputComponent" />
+                                </div>
+                                <div class="node-name">Controller</div>
+                                <div class="node-status">
+                                    <span class="status-dot @(GetNodeHealthClass("controller"))"></span>
+                                    Modbus Active
+                                </div>
+                            </div>
+
+                            <div class="workflow-node active @(GetNodeStatus("edge-gateway-medical"))" @onclick="@(() => ShowNodeDetails("edge-gateway-medical"))">
+                                <div class="node-icon @(GetNodeHealthClass("edge-gateway-medical"))">
                                     <MudIcon Icon="@Icons.Material.Filled.Router" />
                                 </div>
-                                <div class="node-name">Edge Gateway</div>
+                                <div class="node-name">Edge Gateway [Medical]</div>
                                 <div class="node-status">
-                                    <span class="status-dot @(GetNodeHealthClass("edge-gateway"))"></span>
+                                    <span class="status-dot @(GetNodeHealthClass("edge-gateway-medical"))"></span>
                                     @gatewayStatusText
+                                </div>
+                            </div>
+
+                            <div class="workflow-node active @(GetNodeStatus("edge-gateway-monitoring"))" @onclick="@(() => ShowNodeDetails("edge-gateway-monitoring"))">
+                                <div class="node-icon @(GetNodeHealthClass("edge-gateway-monitoring"))">
+                                    <MudIcon Icon="@Icons.Material.Filled.Router" />
+                                </div>
+                                <div class="node-name">Edge Gateway [Monitoring]</div>
+                                <div class="node-status">
+                                    <span class="status-dot @(GetNodeHealthClass("edge-gateway-monitoring"))"></span>
+                                    API Active
                                 </div>
                             </div>
                         </div>
@@ -913,24 +946,13 @@
                         </div>
                     </div>
 
-                    <!-- Cloud Layer -->
+                    <!-- Cloud & Services Layer -->
                     <div class="workflow-layer">
                         <div class="layer-header">
                             <div class="layer-indicator" style="background: #22c55e;"></div>
                             <span class="layer-name">Cloud & Services Layer</span>
                         </div>
                         <div class="layer-content">
-                            <div class="workflow-node active @(GetNodeStatus("services"))" @onclick="@(() => ShowNodeDetails("services"))">
-                                <div class="node-icon @(GetNodeHealthClass("services"))">
-                                    <MudIcon Icon="@Icons.Material.Filled.Apps" />
-                                </div>
-                                <div class="node-name">Services</div>
-                                <div class="node-status">
-                                    <span class="status-dot @(GetNodeHealthClass("services"))"></span>
-                                    @healthyServices/@totalServices
-                                </div>
-                            </div>
-
                             <div class="workflow-node active @(GetNodeStatus("iot-hub"))" @onclick="@(() => ShowNodeDetails("iot-hub"))">
                                 <div class="node-icon @(GetNodeHealthClass("iot-hub"))">
                                     <MudIcon Icon="@Icons.Material.Filled.Cloud" />
@@ -938,7 +960,7 @@
                                 <div class="node-name">IoT Hub</div>
                                 <div class="node-status">
                                     <span class="status-dot @(GetNodeHealthClass("iot-hub"))"></span>
-                                    TPM Ready
+                                    @totalDevices Devices
                                 </div>
                             </div>
 
@@ -960,7 +982,7 @@
                                 <div class="node-name">AI Engine</div>
                                 <div class="node-status">
                                     <span class="status-dot @(GetNodeHealthClass("ai-engine"))"></span>
-                                    Predictive
+                                    Active
                                 </div>
                             </div>
                         </div>
@@ -1047,6 +1069,82 @@
                         </div>
                     }
 
+                    @if (selectedNodeDetails.NodeId == "monitoring-center")
+                    {
+                        <MudText Typo="Typo.body2" Class="mb-4">Central monitoring dashboard status</MudText>
+                        <div class="device-list">
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Active Monitors</div>
+                                <div class="detail-value" style="font-size: 18px;">@activeMonitors</div>
+                            </div>
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Connection</div>
+                                <div class="detail-value" style="font-size: 18px;">API</div>
+                            </div>
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Gateway</div>
+                                <div class="detail-value" style="font-size: 18px;">Connected</div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (selectedNodeDetails.NodeId == "controller")
+                    {
+                        <MudText Typo="Typo.body2" Class="mb-4">Modbus controller for medical devices</MudText>
+                        <div class="device-list">
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Protocol</div>
+                                <div class="detail-value" style="font-size: 18px;">Modbus RTU</div>
+                            </div>
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Connected Devices</div>
+                                <div class="detail-value" style="font-size: 18px;">@onlineDevices</div>
+                            </div>
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Status</div>
+                                <div class="detail-value" style="font-size: 18px;">Active</div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (selectedNodeDetails.NodeId == "edge-gateway-medical")
+                    {
+                        <MudText Typo="Typo.body2" Class="mb-4">Edge gateway for medical devices site</MudText>
+                        <div class="device-list">
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Status</div>
+                                <div class="detail-value" style="font-size: 18px;">@gatewayStatusText</div>
+                            </div>
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Throughput</div>
+                                <div class="detail-value" style="font-size: 18px;">@gatewayMessages.ToString("F0") msg/s</div>
+                            </div>
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Protocol</div>
+                                <div class="detail-value" style="font-size: 18px;">MQTT</div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (selectedNodeDetails.NodeId == "edge-gateway-monitoring")
+                    {
+                        <MudText Typo="Typo.body2" Class="mb-4">Edge gateway for monitoring center site</MudText>
+                        <div class="device-list">
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Status</div>
+                                <div class="detail-value" style="font-size: 18px;">@gatewayStatusText</div>
+                            </div>
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Protocol</div>
+                                <div class="detail-value" style="font-size: 18px;">API</div>
+                            </div>
+                            <div class="detail-card mb-2">
+                                <div class="detail-title">Active Connections</div>
+                                <div class="detail-value" style="font-size: 18px;">@activeMonitors</div>
+                            </div>
+                        </div>
+                    }
+
                     @if (selectedNodeDetails.NodeId == "edge-gateway")
                     {
                         <div class="device-list">
@@ -1067,10 +1165,11 @@
 
                     @if (selectedNodeDetails.NodeId == "iot-hub")
                     {
+                        <MudText Typo="Typo.body2" Class="mb-4">Central IoT Hub with device management</MudText>
                         <div class="device-list">
                             <div class="detail-card mb-2" style="border-left-color: #3b82f6;">
-                                <div class="detail-title">Device Provisioning</div>
-                                <div class="detail-value" style="font-size: 18px;">Auto (DPS)</div>
+                                <div class="detail-title">Connected Devices</div>
+                                <div class="detail-value" style="font-size: 18px;">@totalDevices</div>
                             </div>
                             <div class="detail-card mb-2" style="border-left-color: #22c55e;">
                                 <div class="detail-title">Security</div>
@@ -1078,8 +1177,8 @@
                                 <div class="detail-subtitle">Hardware-backed authentication</div>
                             </div>
                             <div class="detail-card mb-2">
-                                <div class="detail-title">Twin Sync</div>
-                                <div class="detail-value" style="font-size: 18px;">Real-time</div>
+                                <div class="detail-title">Connections</div>
+                                <div class="detail-value" style="font-size: 14px;">MQTT Broker, Edge Gateways</div>
                             </div>
                         </div>
                     }
@@ -1139,6 +1238,10 @@
                     @if (selectedNodeDetails.NodeId == "vitals-preview" || selectedNodeDetails.NodeId == "medical-devices")
                     {
                         <MudText Typo="Typo.subtitle2" Class="mt-4 mb-2">Live Vitals Preview</MudText>
+                        <div class="detail-card mb-3" style="border-left-color: #3b82f6;">
+                            <div class="detail-title">Device Serial</div>
+                            <div class="detail-value" style="font-size: 16px;">@currentDeviceSerial</div>
+                        </div>
                         <MudGrid Spacing="1">
                             <MudItem xs="6">
                                 <div class="vital-card" style="padding: 8px;">
@@ -1229,8 +1332,10 @@
     private int lowSupplyCount = 2;
     private int predictedRestock = 3;
     private List<SupplyItem> supplyItems = new();
+    private int activeMonitors = 3;
 
-    // Vitals data
+    // Vitals data with device serial
+    private string currentDeviceSerial = "DM-001";
     private double bloodFlow = 320;
     private double arterialPressure = 120;
     private double venousPressure = 80;
@@ -1241,6 +1346,7 @@
     public class EdgeDevice
     {
         public string DeviceId { get; set; } = string.Empty;
+        public string SerialNumber { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
         public bool IsOnline { get; set; }
         public DateTime LastSeen { get; set; }
@@ -1417,6 +1523,7 @@
                         edgeDevices = devices.Select(d => new EdgeDevice
                         {
                             DeviceId = d.DeviceId ?? "Unknown",
+                            SerialNumber = d.SerialNumber ?? "N/A",
                             Type = d.Type ?? "Unknown",
                             IsOnline = d.IsOnline ?? false,
                             LastSeen = d.LastTelemetryTime ?? DateTime.UtcNow,
@@ -1449,10 +1556,10 @@
     {
         return new List<EdgeDevice>
         {
-            new EdgeDevice { DeviceId = "dialysis-modern-001", Type = "Dialysis Machine", IsOnline = true, LastSeen = DateTime.UtcNow.AddSeconds(-5), RiskLevel = "Low" },
-            new EdgeDevice { DeviceId = "dialysis-legacy-001", Type = "Dialysis Machine", IsOnline = true, LastSeen = DateTime.UtcNow.AddSeconds(-10), RiskLevel = "Low" },
-            new EdgeDevice { DeviceId = "infusion-pump-001", Type = "Infusion Pump", IsOnline = false, LastSeen = DateTime.UtcNow.AddMinutes(-5), RiskLevel = "Moderate" },
-            new EdgeDevice { DeviceId = "ventilator-001", Type = "Ventilator", IsOnline = true, LastSeen = DateTime.UtcNow.AddSeconds(-3), RiskLevel = "Low" }
+            new EdgeDevice { DeviceId = "dialysis-modern-001", SerialNumber = "DM-001", Type = "Dialysis Machine", IsOnline = true, LastSeen = DateTime.UtcNow.AddSeconds(-5), RiskLevel = "Low" },
+            new EdgeDevice { DeviceId = "dialysis-legacy-001", SerialNumber = "DL-001", Type = "Dialysis Machine", IsOnline = true, LastSeen = DateTime.UtcNow.AddSeconds(-10), RiskLevel = "Low" },
+            new EdgeDevice { DeviceId = "infusion-pump-001", SerialNumber = "IP-001", Type = "Infusion Pump", IsOnline = false, LastSeen = DateTime.UtcNow.AddMinutes(-5), RiskLevel = "Moderate" },
+            new EdgeDevice { DeviceId = "ventilator-001", SerialNumber = "VT-001", Type = "Ventilator", IsOnline = true, LastSeen = DateTime.UtcNow.AddSeconds(-3), RiskLevel = "Low" }
         };
     }
 
@@ -1496,8 +1603,12 @@
     private string GetNodeStatus(string nodeId)
     {
         if (nodeId == "medical-devices") return onlineDevices > 0 ? "status-healthy" : "status-warning";
+        if (nodeId == "monitoring-center") return activeMonitors > 0 ? "status-healthy" : "status-warning";
         if (nodeId == "supply-center") return lowSupplyCount == 0 ? "status-healthy" : "status-warning";
         if (nodeId == "services") return healthyServices == totalServices ? "status-healthy" : "status-warning";
+        if (nodeId == "controller") return gatewayHealth == "healthy" ? "status-healthy" : "status-warning";
+        if (nodeId == "edge-gateway-medical") return gatewayHealth == "healthy" ? "status-healthy" : "status-warning";
+        if (nodeId == "edge-gateway-monitoring") return gatewayHealth == "healthy" ? "status-healthy" : "status-warning";
         if (nodeId == "edge-gateway") return gatewayHealth == "healthy" ? "status-healthy" : "status-warning";
         if (nodeId == "mqtt-broker") return mqttStatus == "healthy" ? "status-healthy" : "status-warning";
         if (nodeId == "iot-hub") return "status-healthy";
@@ -1510,8 +1621,12 @@
     private string GetNodeHealthClass(string nodeId)
     {
         if (nodeId == "medical-devices") return onlineDevices > 0 ? "healthy" : "warning";
+        if (nodeId == "monitoring-center") return activeMonitors > 0 ? "healthy" : "warning";
         if (nodeId == "supply-center") return lowSupplyCount == 0 ? "healthy" : "warning";
         if (nodeId == "services") return healthyServices == totalServices ? "healthy" : "warning";
+        if (nodeId == "controller") return gatewayHealth;
+        if (nodeId == "edge-gateway-medical") return gatewayHealth;
+        if (nodeId == "edge-gateway-monitoring") return gatewayHealth;
         if (nodeId == "edge-gateway") return gatewayHealth;
         if (nodeId == "mqtt-broker") return mqttStatus;
         if (nodeId == "iot-hub") return "healthy";
@@ -1526,9 +1641,13 @@
         var titleMap = new Dictionary<string, string>
         {
             { "medical-devices", "Medical Devices" },
+            { "monitoring-center", "Monitoring Center" },
             { "supply-center", "Supply Center" },
             { "services", "Container Services" },
+            { "controller", "Controller" },
             { "edge-gateway", "Edge Gateway" },
+            { "edge-gateway-medical", "Edge Gateway [Medical]" },
+            { "edge-gateway-monitoring", "Edge Gateway [Monitoring]" },
             { "mqtt-broker", "MQTT Broker" },
             { "iot-hub", "IoT Hub Simulator" },
             { "fhir-api", "FHIR API" },
@@ -1574,6 +1693,7 @@
     public class DeviceApiResponse
     {
         public string? DeviceId { get; set; }
+        public string? SerialNumber { get; set; }
         public string? Type { get; set; }
         public bool? IsOnline { get; set; }
         public DateTime? LastTelemetryTime { get; set; }

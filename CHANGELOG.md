@@ -173,5 +173,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Predictive maintenance capabilities
 - Multi-language support
 
-[Unreleased]: https://github.com/bejranonda/MedEdge-Gateway/compare/v1.0.0...HEAD
+## [1.2.1-beta] - 2026-01-25
+
+### Changed
+#### System Dashboard Workflow Enhancement
+- **Facility Layer**: Restructured to include Medical Devices, Monitoring Center, and Supply Center
+- **Edge Layer**: Expanded with Controller (Modbus) and separate Edge Gateways for Medical Devices and Monitoring Center
+- **Messaging Layer**: MQTT Broker with connection status
+- **Cloud & Services Layer**: Removed "Services" box, streamlined to IoT Hub, FHIR API, and AI Engine
+- **Status Indicators**: All elements now display connected device counts and status instead of descriptions
+- **Live Vitals**: Added device serial number display (e.g., "DM-001") for device identification
+
+### Technical Details
+- Medical Devices and Supply Center now represent different sites with individual edge gateways
+- Controller node shows Modbus connection status
+- Separate Edge Gateway [Medical] and Edge Gateway [Monitoring] for site-specific communication
+- Live vitals preview displays device serial for traceability
+- Detail panels added for Monitoring Center, Controller, and both Edge Gateway instances
+
+[Unreleased]: https://github.com/bejranonda/MedEdge-Gateway/compare/v1.2.1-beta...HEAD
+[1.2.1-beta]: https://github.com/bejranonda/MedEdge-Gateway/compare/v1.2.0-beta...v1.2.1-beta
 [1.0.0]: https://github.com/bejranonda/MedEdge-Gateway/releases/tag/v1.0.0
