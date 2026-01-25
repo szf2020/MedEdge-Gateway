@@ -21,6 +21,12 @@ RUN dotnet build -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 
+# Copy MudBlazor static assets to the correct location
+RUN mkdir -p /app/publish/wwwroot/_content/MudBlazor && \
+    find /root/.nuget/packages/mudblazor.* -name "MudBlazor.min.css" 2>/dev/null | head -1 | xargs -I {} cp {} /app/publish/wwwroot/_content/MudBlazor/ || \
+    find /app/publish -name "MudBlazor.min.css" 2>/dev/null | head -1 | xargs -I {} cp {} /app/publish/wwwroot/_content/MudBlazor/ || \
+    echo "Warning: Could not find MudBlazor.min.css"
+
 # Runtime stage with Nginx
 FROM nginx:alpine AS final
 WORKDIR /app
