@@ -376,9 +376,9 @@
     {
         try
         {
-            var apiBaseUrl = NavigationManager.BaseUri.Replace("dashboard/", "fhirapi/");
+            var apiBaseUrl = Navigation.BaseUri.Replace("dashboard/", "fhirapi/");
             _hubConnection = new HubConnectionBuilder()
-                .WithUrl(new Uri(NavigationManager.ToAbsoluteUri("/hubs/telemetry")))
+                .WithUrl(new Uri(Navigation.ToAbsoluteUri("/hubs/telemetry")))
                 .WithAutomaticReconnect()
                 .Build();
 
