@@ -16,7 +16,14 @@ A production-grade global-scale platform demonstrating:
 
 ## 🎯 Project Status
 
-**✅ v2.0 RELEASED - Global Scale Architecture**
+**✅ v2.1.0 RELEASED - Enhanced Dashboard Visualization**
+
+**Latest Update: Dashboard Architecture Improvements**
+- ✅ Visual subgroup containers with labeled borders
+- ✅ Clear separation of Client and Facility groups (Local tier)
+- ✅ Organized Cloud Services and Regional Layer (Regional tier)
+- ✅ Color-coded labels with emoji icons for better UX
+- ✅ Improved architecture understanding and navigation
 
 **Phase 1: FHIR API Foundation** - ✅ COMPLETE
 - ✅ Clean Architecture (9 projects, 3-layer design)
@@ -343,6 +350,6 @@ Built as a portfolio project demonstrating expertise in:
 
 ---
 
-**Current Version:** v2.0.0
+**Current Version:** v2.1.0
 **Last Updated:** 2026-02-02
-**Status:** Production Ready - Global Scale Architecture
+**Status:** Production Ready - Enhanced Dashboard Visualization

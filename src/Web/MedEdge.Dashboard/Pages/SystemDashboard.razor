@@ -767,6 +767,93 @@
         color: var(--mud-palette-text-secondary);
         margin-top: 4px;
     }
+
+    /* Subgroup containers for better visual organization */
+    .subgroup-container {
+        border: 2px dashed;
+        border-radius: 12px;
+        padding: 16px;
+        margin: 8px 4px;
+        position: relative;
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    .subgroup-container.client-group {
+        border-color: #a855f7;
+        background: rgba(168, 85, 247, 0.05);
+    }
+
+    .subgroup-container.facility-group {
+        border-color: #8b5cf6;
+        background: rgba(139, 92, 246, 0.05);
+    }
+
+    .subgroup-container.cloud-services {
+        border-color: #3b82f6;
+        background: rgba(59, 130, 246, 0.05);
+    }
+
+    .subgroup-container.regional-layer {
+        border-color: #f59e0b;
+        background: rgba(245, 158, 11, 0.05);
+    }
+
+    .subgroup-label {
+        position: absolute;
+        top: -10px;
+        left: 16px;
+        background: white;
+        padding: 2px 10px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .subgroup-label.client-group {
+        color: #a855f7;
+    }
+
+    .subgroup-label.facility-group {
+        color: #8b5cf6;
+    }
+
+    .subgroup-label.cloud-services {
+        color: #3b82f6;
+    }
+
+    .subgroup-label.regional-layer {
+        color: #f59e0b;
+    }
+
+    .subgroup-nodes {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .layer-subgroups {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .flow-connector {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #94a3b8;
+        font-size: 16px;
+        padding: 0 4px;
+    }
 </style>
 
 <div class="dashboard-container">
@@ -913,108 +1000,114 @@
                             <span class="layer-name">REGIONAL - Cloud & Services</span>
                             <span style="font-size: 10px; color: #3b82f6; margin-left: 8px; font-weight: 600;">📍 Data Residency</span>
                         </div>
-                        <div class="layer-content">
+                        <div class="layer-content" style="flex-direction: column;">
                             <!-- Cloud Services Group -->
-                            <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
-                                <div class="workflow-node active @(GetNodeStatus("treatment-service"))" @onclick="@(() => ShowNodeDetails("treatment-service"))">
-                                    <div class="node-icon @(GetNodeHealthClass("treatment-service"))" style="background: #3b82f6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.EventNote" />
+                            <div class="subgroup-container cloud-services">
+                                <div class="subgroup-label cloud-services">☁️ Cloud Services</div>
+                                <div class="subgroup-nodes">
+                                    <div class="workflow-node active @(GetNodeStatus("treatment-service"))" @onclick="@(() => ShowNodeDetails("treatment-service"))">
+                                        <div class="node-icon @(GetNodeHealthClass("treatment-service"))" style="background: #3b82f6;">
+                                            <MudIcon Icon="@Icons.Material.Filled.EventNote" />
+                                        </div>
+                                        <div class="node-name">Treatment Service</div>
+                                        <div class="node-status">
+                                            <span class="status-dot @(GetNodeHealthClass("treatment-service"))"></span>
+                                            Sessions
+                                        </div>
                                     </div>
-                                    <div class="node-name">Treatment</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("treatment-service"))"></span>
-                                        Sessions
-                                    </div>
-                                </div>
 
-                                <div class="workflow-node active @(GetNodeStatus("coordination-service"))" @onclick="@(() => ShowNodeDetails("coordination-service"))">
-                                    <div class="node-icon @(GetNodeHealthClass("coordination-service"))" style="background: #3b82f6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.DeviceHub" />
+                                    <div class="workflow-node active @(GetNodeStatus("coordination-service"))" @onclick="@(() => ShowNodeDetails("coordination-service"))">
+                                        <div class="node-icon @(GetNodeHealthClass("coordination-service"))" style="background: #3b82f6;">
+                                            <MudIcon Icon="@Icons.Material.Filled.DeviceHub" />
+                                        </div>
+                                        <div class="node-name">Device Coordination</div>
+                                        <div class="node-status">
+                                            <span class="status-dot @(GetNodeHealthClass("coordination-service"))"></span>
+                                            Stations
+                                        </div>
                                     </div>
-                                    <div class="node-name">Coordination</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("coordination-service"))"></span>
-                                        Stations
-                                    </div>
-                                </div>
 
-                                <div class="workflow-node active @(GetNodeStatus("analytics-service"))" @onclick="@(() => ShowNodeDetails("analytics-service"))">
-                                    <div class="node-icon @(GetNodeHealthClass("analytics-service"))" style="background: #3b82f6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.Analytics" />
+                                    <div class="workflow-node active @(GetNodeStatus("analytics-service"))" @onclick="@(() => ShowNodeDetails("analytics-service"))">
+                                        <div class="node-icon @(GetNodeHealthClass("analytics-service"))" style="background: #3b82f6;">
+                                            <MudIcon Icon="@Icons.Material.Filled.Analytics" />
+                                        </div>
+                                        <div class="node-name">Analytics</div>
+                                        <div class="node-status">
+                                            <span class="status-dot @(GetNodeHealthClass("analytics-service"))"></span>
+                                            Regional
+                                        </div>
                                     </div>
-                                    <div class="node-name">Analytics</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("analytics-service"))"></span>
-                                        Regional
-                                    </div>
-                                </div>
 
-                                <div class="workflow-node active @(GetNodeStatus("transform-service"))" @onclick="@(() => ShowNodeDetails("transform-service"))">
-                                    <div class="node-icon @(GetNodeHealthClass("transform-service"))" style="background: #3b82f6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.Transform" />
+                                    <div class="workflow-node active @(GetNodeStatus("transform-service"))" @onclick="@(() => ShowNodeDetails("transform-service"))">
+                                        <div class="node-icon @(GetNodeHealthClass("transform-service"))" style="background: #3b82f6;">
+                                            <MudIcon Icon="@Icons.Material.Filled.Transform" />
+                                        </div>
+                                        <div class="node-name">Transform</div>
+                                        <div class="node-status">
+                                            <span class="status-dot @(GetNodeHealthClass("transform-service"))"></span>
+                                            FHIR
+                                        </div>
                                     </div>
-                                    <div class="node-name">Transform</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("transform-service"))"></span>
-                                        FHIR
-                                    </div>
-                                </div>
 
-                                <div class="workflow-node active @(GetNodeStatus("fhir-api"))" @onclick="@(() => ShowNodeDetails("fhir-api"))">
-                                    <div class="node-icon @(GetNodeHealthClass("fhir-api"))" style="background: #3b82f6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.LocalHospital" />
+                                    <div class="workflow-node active @(GetNodeStatus("fhir-api"))" @onclick="@(() => ShowNodeDetails("fhir-api"))">
+                                        <div class="node-icon @(GetNodeHealthClass("fhir-api"))" style="background: #3b82f6;">
+                                            <MudIcon Icon="@Icons.Material.Filled.LocalHospital" />
+                                        </div>
+                                        <div class="node-name">FHIR API</div>
+                                        <div class="node-status">
+                                            <span class="status-dot @(GetNodeHealthClass("fhir-api"))"></span>
+                                            USCDI v3
+                                        </div>
                                     </div>
-                                    <div class="node-name">FHIR API</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("fhir-api"))"></span>
-                                        USCDI v3
-                                    </div>
-                                </div>
 
-                                <div class="workflow-node @(GetNodeStatus("ai-engine"))" @onclick="@(() => ShowNodeDetails("ai-engine"))">
-                                    <div class="node-icon @(GetNodeHealthClass("ai-engine"))" style="background: #3b82f6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.Psychology" />
+                                    <div class="workflow-node @(GetNodeStatus("ai-engine"))" @onclick="@(() => ShowNodeDetails("ai-engine"))">
+                                        <div class="node-icon @(GetNodeHealthClass("ai-engine"))" style="background: #3b82f6;">
+                                            <MudIcon Icon="@Icons.Material.Filled.Psychology" />
+                                        </div>
+                                        <div class="node-name">AI Engine</div>
+                                        <div class="node-status">
+                                            <span class="status-dot @(GetNodeHealthClass("ai-engine"))"></span>
+                                            Federated
+                                        </div>
                                     </div>
-                                    <div class="node-name">AI Engine</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("ai-engine"))"></span>
-                                        Federated
+
+                                    <div class="workflow-node active @(GetNodeStatus("regional-database"))" @onclick="@(() => ShowNodeDetails("regional-database"))">
+                                        <div class="node-icon @(GetNodeHealthClass("regional-database"))" style="background: #3b82f6;">
+                                            <MudIcon Icon="@Icons.Material.Filled.Storage" />
+                                        </div>
+                                        <div class="node-name">Regional DB</div>
+                                        <div class="node-status">
+                                            <span class="status-dot healthy"></span>
+                                            Cluster
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Treatment Center & Supply Group -->
-                            <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 8px;">
-                                <div class="workflow-node @(GetNodeStatus("treatment-center-layer"))" @onclick="@(() => ShowNodeDetails("treatment-center-layer"))">
-                                    <div class="node-icon @(GetNodeHealthClass("treatment-center-layer"))" style="background: #f59e0b;">
-                                        <MudIcon Icon="@Icons.Material.Filled.LocalHospital" />
+                            <!-- Regional Layer Group -->
+                            <div class="subgroup-container regional-layer">
+                                <div class="subgroup-label regional-layer">🏢 Regional Layer</div>
+                                <div class="subgroup-nodes">
+                                    <div class="workflow-node @(GetNodeStatus("treatment-center-layer"))" @onclick="@(() => ShowNodeDetails("treatment-center-layer"))">
+                                        <div class="node-icon @(GetNodeHealthClass("treatment-center-layer"))" style="background: #f59e0b;">
+                                            <MudIcon Icon="@Icons.Material.Filled.LocalHospital" />
+                                        </div>
+                                        <div class="node-name">Treatment Center Layer</div>
+                                        <div class="node-status">
+                                            <span class="status-dot @(GetNodeHealthClass("treatment-center-layer"))"></span>
+                                            6 Zones • 52 Stations
+                                        </div>
                                     </div>
-                                    <div class="node-name">Treatment Center Layer</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("treatment-center-layer"))"></span>
-                                        6 Zones • 52 Stations
-                                    </div>
-                                </div>
 
-                                <div class="workflow-node @(GetNodeStatus("supply-center"))" @onclick="@(() => ShowNodeDetails("supply-center"))">
-                                    <div class="node-icon @(GetNodeHealthClass("supply-center"))" style="background: #f59e0b;">
-                                        <MudIcon Icon="@Icons.Material.Filled.Inventory2" />
-                                    </div>
-                                    <div class="node-name">Supply Center</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("supply-center"))"></span>
-                                        Regional
-                                    </div>
-                                </div>
-
-                                <div class="workflow-node active @(GetNodeStatus("regional-database"))" @onclick="@(() => ShowNodeDetails("regional-database"))">
-                                    <div class="node-icon @(GetNodeHealthClass("regional-database"))" style="background: #3b82f6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.Storage" />
-                                    </div>
-                                    <div class="node-name">Regional DB</div>
-                                    <div class="node-status">
-                                        <span class="status-dot healthy"></span>
-                                        Cluster
+                                    <div class="workflow-node @(GetNodeStatus("supply-center"))" @onclick="@(() => ShowNodeDetails("supply-center"))">
+                                        <div class="node-icon @(GetNodeHealthClass("supply-center"))" style="background: #f59e0b;">
+                                            <MudIcon Icon="@Icons.Material.Filled.Inventory2" />
+                                        </div>
+                                        <div class="node-name">Supply Center</div>
+                                        <div class="node-status">
+                                            <span class="status-dot @(GetNodeHealthClass("supply-center"))"></span>
+                                            Regional
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1032,97 +1125,105 @@
                             <span class="layer-name">LOCAL - Facility Edge</span>
                             <span style="font-size: 10px; color: #8b5cf6; margin-left: 8px; font-weight: 600;">🏥 HIPAA/GDPR</span>
                         </div>
-                        <div class="layer-content">
-                            <!-- Client Group -->
-                            <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
-                                <div class="workflow-node @(GetNodeStatus("medical-devices"))" @onclick="@(() => ShowNodeDetails("medical-devices"))">
-                                    <div class="node-icon @(GetNodeHealthClass("medical-devices"))" style="background: #8b5cf6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.MedicalServices" />
-                                    </div>
-                                    <div class="node-name">Medical Devices</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("medical-devices"))"></span>
-                                        @onlineDevices/@totalDevices
+                        <div class="layer-content" style="flex-direction: column;">
+                            <div class="layer-subgroups">
+                                <!-- Client Group -->
+                                <div class="subgroup-container client-group" style="flex: 1; min-width: 300px;">
+                                    <div class="subgroup-label client-group">📱 Client Group</div>
+                                    <div class="subgroup-nodes">
+                                        <div class="workflow-node @(GetNodeStatus("medical-devices"))" @onclick="@(() => ShowNodeDetails("medical-devices"))">
+                                            <div class="node-icon @(GetNodeHealthClass("medical-devices"))" style="background: #a855f7;">
+                                                <MudIcon Icon="@Icons.Material.Filled.MedicalServices" />
+                                            </div>
+                                            <div class="node-name">Medical Devices</div>
+                                            <div class="node-status">
+                                                <span class="status-dot @(GetNodeHealthClass("medical-devices"))"></span>
+                                                @onlineDevices/@totalDevices
+                                            </div>
+                                        </div>
+
+                                        <div class="workflow-node @(GetNodeStatus("monitoring-center"))" @onclick="@(() => ShowNodeDetails("monitoring-center"))">
+                                            <div class="node-icon @(GetNodeHealthClass("monitoring-center"))" style="background: #a855f7;">
+                                                <MudIcon Icon="@Icons.Material.Filled.MonitorHeart" />
+                                            </div>
+                                            <div class="node-name">Monitoring Ctr</div>
+                                            <div class="node-status">
+                                                <span class="status-dot @(GetNodeHealthClass("monitoring-center"))"></span>
+                                                @activeMonitors
+                                            </div>
+                                        </div>
+
+                                        <div class="workflow-node @(GetNodeStatus("controller"))" @onclick="@(() => ShowNodeDetails("controller"))">
+                                            <div class="node-icon @(GetNodeHealthClass("controller"))" style="background: #a855f7;">
+                                                <MudIcon Icon="@Icons.Material.Filled.SettingsInputComponent" />
+                                            </div>
+                                            <div class="node-name">Controller</div>
+                                            <div class="node-status">
+                                                <span class="status-dot @(GetNodeHealthClass("controller"))"></span>
+                                                Modbus
+                                            </div>
+                                        </div>
+
+                                        <div class="workflow-node active @(GetNodeStatus("mqtt-broker"))" @onclick="@(() => ShowNodeDetails("mqtt-broker"))">
+                                            <div class="node-icon @(GetNodeHealthClass("mqtt-broker"))" style="background: #a855f7;">
+                                                <MudIcon Icon="@Icons.Material.Filled.Sensors" />
+                                            </div>
+                                            <div class="node-name">MQTT Broker</div>
+                                            <div class="node-status">
+                                                <span class="status-dot @(GetNodeHealthClass("mqtt-broker"))"></span>
+                                                Facility
+                                            </div>
+                                        </div>
+
+                                        <div class="workflow-node active @(GetNodeStatus("edge-gateway-hospital"))" @onclick="@(() => ShowNodeDetails("edge-gateway-hospital"))">
+                                            <div class="node-icon @(GetNodeHealthClass("edge-gateway-hospital"))" style="background: #a855f7;">
+                                                <MudIcon Icon="@Icons.Material.Filled.Router" />
+                                            </div>
+                                            <div class="node-name">Edge Gateway</div>
+                                            <div class="node-status">
+                                                <span class="status-dot @(GetNodeHealthClass("edge-gateway-hospital"))"></span>
+                                                [Hospital] → Regional
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="workflow-node @(GetNodeStatus("monitoring-center"))" @onclick="@(() => ShowNodeDetails("monitoring-center"))">
-                                    <div class="node-icon @(GetNodeHealthClass("monitoring-center"))" style="background: #8b5cf6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.MonitorHeart" />
-                                    </div>
-                                    <div class="node-name">Monitoring Ctr</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("monitoring-center"))"></span>
-                                        @activeMonitors
-                                    </div>
-                                </div>
+                                <!-- Facility Group -->
+                                <div class="subgroup-container facility-group" style="flex: 1; min-width: 300px;">
+                                    <div class="subgroup-label facility-group">🏥 Facility Group</div>
+                                    <div class="subgroup-nodes">
+                                        <div class="workflow-node @(GetNodeStatus("treatment-center"))" @onclick="@(() => ShowNodeDetails("treatment-center"))">
+                                            <div class="node-icon @(GetNodeHealthClass("treatment-center"))" style="background: #8b5cf6;">
+                                                <MudIcon Icon="@Icons.Material.Filled.LocalHospital" />
+                                            </div>
+                                            <div class="node-name">Treatment Center</div>
+                                            <div class="node-status">
+                                                <span class="status-dot @(GetNodeHealthClass("treatment-center"))"></span>
+                                                Facility
+                                            </div>
+                                        </div>
 
-                                <div class="workflow-node @(GetNodeStatus("controller"))" @onclick="@(() => ShowNodeDetails("controller"))">
-                                    <div class="node-icon @(GetNodeHealthClass("controller"))" style="background: #8b5cf6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.SettingsInputComponent" />
-                                    </div>
-                                    <div class="node-name">Controller</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("controller"))"></span>
-                                        Modbus
-                                    </div>
-                                </div>
+                                        <div class="workflow-node active @(GetNodeStatus("edge-gateway-store"))" @onclick="@(() => ShowNodeDetails("edge-gateway-store"))">
+                                            <div class="node-icon @(GetNodeHealthClass("edge-gateway-store"))" style="background: #8b5cf6;">
+                                                <MudIcon Icon="@Icons.Material.Filled.Router" />
+                                            </div>
+                                            <div class="node-name">Edge Gateway</div>
+                                            <div class="node-status">
+                                                <span class="status-dot @(GetNodeHealthClass("edge-gateway-store"))"></span>
+                                                [Store] → Regional
+                                            </div>
+                                        </div>
 
-                                <div class="workflow-node active @(GetNodeStatus("edge-gateway-hospital"))" @onclick="@(() => ShowNodeDetails("edge-gateway-hospital"))">
-                                    <div class="node-icon @(GetNodeHealthClass("edge-gateway-hospital"))" style="background: #8b5cf6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.Router" />
-                                    </div>
-                                    <div class="node-name">Edge Gateway</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("edge-gateway-hospital"))"></span>
-                                        [Hospital]
-                                    </div>
-                                </div>
-
-                                <div class="workflow-node active @(GetNodeStatus("mqtt-broker"))" @onclick="@(() => ShowNodeDetails("mqtt-broker"))">
-                                    <div class="node-icon @(GetNodeHealthClass("mqtt-broker"))" style="background: #8b5cf6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.Sensors" />
-                                    </div>
-                                    <div class="node-name">MQTT Broker</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("mqtt-broker"))"></span>
-                                        Facility
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Facility Group -->
-                            <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 8px;">
-                                <div class="workflow-node active @(GetNodeStatus("edge-gateway-store"))" @onclick="@(() => ShowNodeDetails("edge-gateway-store"))">
-                                    <div class="node-icon @(GetNodeHealthClass("edge-gateway-store"))" style="background: #8b5cf6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.Router" />
-                                    </div>
-                                    <div class="node-name">Edge Gateway</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("edge-gateway-store"))"></span>
-                                        [Store]
-                                    </div>
-                                </div>
-
-                                <div class="workflow-node @(GetNodeStatus("treatment-center"))" @onclick="@(() => ShowNodeDetails("treatment-center"))">
-                                    <div class="node-icon @(GetNodeHealthClass("treatment-center"))" style="background: #8b5cf6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.LocalHospital" />
-                                    </div>
-                                    <div class="node-name">Treatment Center</div>
-                                    <div class="node-status">
-                                        <span class="status-dot @(GetNodeHealthClass("treatment-center"))"></span>
-                                        Local DB
-                                    </div>
-                                </div>
-
-                                <div class="workflow-node @(GetNodeStatus("local-database"))" @onclick="@(() => ShowNodeDetails("local-database"))">
-                                    <div class="node-icon @(GetNodeHealthClass("local-database"))" style="background: #8b5cf6;">
-                                        <MudIcon Icon="@Icons.Material.Filled.Storage" />
-                                    </div>
-                                    <div class="node-name">Local DB</div>
-                                    <div class="node-status">
-                                        <span class="status-dot healthy"></span>
-                                        PHI Data
+                                        <div class="workflow-node @(GetNodeStatus("local-database"))" @onclick="@(() => ShowNodeDetails("local-database"))">
+                                            <div class="node-icon @(GetNodeHealthClass("local-database"))" style="background: #8b5cf6;">
+                                                <MudIcon Icon="@Icons.Material.Filled.Storage" />
+                                            </div>
+                                            <div class="node-name">Local DB</div>
+                                            <div class="node-status">
+                                                <span class="status-dot healthy"></span>
+                                                PHI Data
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

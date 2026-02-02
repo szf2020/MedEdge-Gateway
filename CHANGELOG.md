@@ -5,6 +5,42 @@ All notable changes to the MedEdge-Gateway project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-02-02
+
+### Enhanced - Dashboard Architecture Visualization
+
+This release improves the System Dashboard's architecture visualization with clearer visual organization and labeled subgroup containers.
+
+### Changed
+
+#### Dashboard Improvements
+- **LOCAL Tier Visualization**: Restructured with labeled subgroup containers
+  - 📱 **Client Group** (purple dashed border): Medical Devices, Monitoring Center, Controller, MQTT Broker, Edge Gateway [Hospital]
+  - 🏥 **Facility Group** (violet dashed border): Treatment Center, Edge Gateway [Store], Local DB (PHI Data)
+- **REGIONAL Tier Visualization**: Organized into logical service groups
+  - ☁️ **Cloud Services** (blue dashed border): Treatment Service, Device Coordination, Analytics, Transform, FHIR API, AI Engine, Regional DB
+  - 🏢 **Regional Layer** (amber dashed border): Treatment Center Layer, Supply Center
+- **Visual Enhancements**:
+  - Added dashed border containers with color-coded labels and emoji icons
+  - Improved node color differentiation (Client Group uses lighter purple #a855f7)
+  - Edge Gateway nodes now show "→ Regional" connection indicator
+  - Database nodes clearly labeled at each tier (PHI Data, Cluster, No PHI)
+  - Better visual hierarchy and grouping for easier architecture understanding
+
+#### Technical Details
+- Added CSS classes: `.subgroup-container`, `.subgroup-label`, `.subgroup-nodes`, `.layer-subgroups`
+- Color variants for each subgroup type (client-group, facility-group, cloud-services, regional-layer)
+- Responsive flexbox layout for subgroup containers
+- Maintained all interactive functionality (click for details, status indicators)
+
+### Benefits
+- **Improved Clarity**: Architecture tiers and service groupings are now immediately visible
+- **Better Understanding**: Clear visual separation between Client and Facility groups in Local tier
+- **Enhanced Navigation**: Easier to understand data flow from Local → Regional → Global
+- **Compliance Visibility**: PHI data boundaries are more obvious with labeled database nodes
+
+---
+
 ## [2.0.0] - 2026-02-02
 
 ### Major Release - Global Scale Architecture
@@ -380,7 +416,8 @@ Users upgrading from v1.x should:
 
 ---
 
-[Unreleased]: https://github.com/bejranonda/MedEdge-Gateway/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/bejranonda/MedEdge-Gateway/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/bejranonda/MedEdge-Gateway/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/bejranonda/MedEdge-Gateway/compare/v1.4.0...v2.0.0
 [1.4.0]: https://github.com/bejranonda/MedEdge-Gateway/compare/v1.2.1-beta...v1.4.0
 [1.2.1-beta]: https://github.com/bejranonda/MedEdge-Gateway/compare/v1.2.0-beta...v1.2.1-beta
