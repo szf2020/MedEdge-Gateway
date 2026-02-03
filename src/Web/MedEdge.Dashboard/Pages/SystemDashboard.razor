@@ -1092,10 +1092,10 @@
                                         <div class="node-icon @(GetNodeHealthClass("treatment-center-layer"))" style="background: #f59e0b;">
                                             <MudIcon Icon="@Icons.Material.Filled.LocalHospital" />
                                         </div>
-                                        <div class="node-name">Treatment Center Layer</div>
+                                        <div class="node-name">Treatment Center Interface</div>
                                         <div class="node-status">
                                             <span class="status-dot @(GetNodeHealthClass("treatment-center-layer"))"></span>
-                                            6 Zones • 52 Stations
+                                            6 Zones • Connect to [Store] Gateway
                                         </div>
                                     </div>
 
@@ -1103,10 +1103,10 @@
                                         <div class="node-icon @(GetNodeHealthClass("supply-center"))" style="background: #f59e0b;">
                                             <MudIcon Icon="@Icons.Material.Filled.Inventory2" />
                                         </div>
-                                        <div class="node-name">Supply Center</div>
+                                        <div class="node-name">Supply Center Interface</div>
                                         <div class="node-status">
                                             <span class="status-dot @(GetNodeHealthClass("supply-center"))"></span>
-                                            Regional
+                                            Regional • Connect to [Hospital] Gateway
                                         </div>
                                     </div>
                                 </div>
@@ -1129,16 +1129,16 @@
                             <div class="layer-subgroups">
                                 <!-- Client Group -->
                                 <div class="subgroup-container client-group" style="flex: 1; min-width: 300px;">
-                                    <div class="subgroup-label client-group">📱 Client Group</div>
+                                    <div class="subgroup-label client-group">📱 Client group (e.g. Treatment center)</div>
                                     <div class="subgroup-nodes">
                                         <div class="workflow-node @(GetNodeStatus("medical-devices"))" @onclick="@(() => ShowNodeDetails("medical-devices"))">
                                             <div class="node-icon @(GetNodeHealthClass("medical-devices"))" style="background: #a855f7;">
                                                 <MudIcon Icon="@Icons.Material.Filled.MedicalServices" />
                                             </div>
-                                            <div class="node-name">Medical Devices</div>
+                                            <div class="node-name">Medical Devices + Controller</div>
                                             <div class="node-status">
                                                 <span class="status-dot @(GetNodeHealthClass("medical-devices"))"></span>
-                                                @onlineDevices/@totalDevices
+                                                @onlineDevices/@totalDevices • Modbus
                                             </div>
                                         </div>
 
@@ -1153,17 +1153,6 @@
                                             </div>
                                         </div>
 
-                                        <div class="workflow-node @(GetNodeStatus("controller"))" @onclick="@(() => ShowNodeDetails("controller"))">
-                                            <div class="node-icon @(GetNodeHealthClass("controller"))" style="background: #a855f7;">
-                                                <MudIcon Icon="@Icons.Material.Filled.SettingsInputComponent" />
-                                            </div>
-                                            <div class="node-name">Controller</div>
-                                            <div class="node-status">
-                                                <span class="status-dot @(GetNodeHealthClass("controller"))"></span>
-                                                Modbus
-                                            </div>
-                                        </div>
-
                                         <div class="workflow-node active @(GetNodeStatus("mqtt-broker"))" @onclick="@(() => ShowNodeDetails("mqtt-broker"))">
                                             <div class="node-icon @(GetNodeHealthClass("mqtt-broker"))" style="background: #a855f7;">
                                                 <MudIcon Icon="@Icons.Material.Filled.Sensors" />
@@ -1171,7 +1160,7 @@
                                             <div class="node-name">MQTT Broker</div>
                                             <div class="node-status">
                                                 <span class="status-dot @(GetNodeHealthClass("mqtt-broker"))"></span>
-                                                Facility
+                                                Connect to [Hospital] Gateway
                                             </div>
                                         </div>
 
@@ -1192,16 +1181,7 @@
                                 <div class="subgroup-container facility-group" style="flex: 1; min-width: 300px;">
                                     <div class="subgroup-label facility-group">🏥 Facility Group</div>
                                     <div class="subgroup-nodes">
-                                        <div class="workflow-node @(GetNodeStatus("treatment-center"))" @onclick="@(() => ShowNodeDetails("treatment-center"))">
-                                            <div class="node-icon @(GetNodeHealthClass("treatment-center"))" style="background: #8b5cf6;">
-                                                <MudIcon Icon="@Icons.Material.Filled.LocalHospital" />
-                                            </div>
-                                            <div class="node-name">Treatment Center</div>
-                                            <div class="node-status">
-                                                <span class="status-dot @(GetNodeHealthClass("treatment-center"))"></span>
-                                                Facility
-                                            </div>
-                                        </div>
+
 
                                         <div class="workflow-node active @(GetNodeStatus("edge-gateway-store"))" @onclick="@(() => ShowNodeDetails("edge-gateway-store"))">
                                             <div class="node-icon @(GetNodeHealthClass("edge-gateway-store"))" style="background: #8b5cf6;">
@@ -1277,7 +1257,7 @@
 
                     @if (selectedNodeDetails.NodeId == "supply-center")
                     {
-                        <MudText Typo="Typo.body2" Class="mb-4">AI-Powered Supply Chain Management</MudText>
+                        <MudText Typo="Typo.body2" Class="mb-4">AI-Powered Supply Chain Interface</MudText>
                         <div class="detail-card mb-3" style="border-left-color: #3b82f6;">
                             <div class="detail-title">Status</div>
                             <div class="detail-value" style="font-size: 18px; color: #3b82f6;">AI Active</div>
@@ -1303,7 +1283,7 @@
 
                     @if (selectedNodeDetails.NodeId == "medical-devices")
                     {
-                        <MudText Typo="Typo.body2" Class="mb-4">Connected medical devices</MudText>
+                        <MudText Typo="Typo.body2" Class="mb-4">Connected medical devices + integrated controller</MudText>
                         <div class="device-list">
                             @foreach (var device in edgeDevices.Take(5))
                             {
@@ -1338,24 +1318,7 @@
                         </div>
                     }
 
-                    @if (selectedNodeDetails.NodeId == "controller")
-                    {
-                        <MudText Typo="Typo.body2" Class="mb-4">Modbus controller for medical devices</MudText>
-                        <div class="device-list">
-                            <div class="detail-card mb-2">
-                                <div class="detail-title">Protocol</div>
-                                <div class="detail-value" style="font-size: 18px;">Modbus RTU</div>
-                            </div>
-                            <div class="detail-card mb-2">
-                                <div class="detail-title">Connected Devices</div>
-                                <div class="detail-value" style="font-size: 18px;">@onlineDevices</div>
-                            </div>
-                            <div class="detail-card mb-2">
-                                <div class="detail-title">Status</div>
-                                <div class="detail-value" style="font-size: 18px;">Active</div>
-                            </div>
-                        </div>
-                    }
+
 
                     @if (selectedNodeDetails.NodeId == "edge-gateway-hospital")
                     {
@@ -1679,7 +1642,7 @@
 
                     @if (selectedNodeDetails.NodeId == "treatment-center-layer")
                     {
-                        <MudText Typo="Typo.body2" Class="mb-4">Regional treatment center orchestration layer</MudText>
+                        <MudText Typo="Typo.body2" Class="mb-4">Regional treatment center interface layer</MudText>
                         <div class="device-list">
                             <div class="detail-card mb-2" style="border-left-color: #f59e0b;">
                                 <div class="detail-title">Zones</div>
@@ -1699,27 +1662,7 @@
                         </div>
                     }
 
-                    @if (selectedNodeDetails.NodeId == "treatment-center")
-                    {
-                        <MudText Typo="Typo.body2" Class="mb-4">Local treatment center with edge database</MudText>
-                        <div class="device-list">
-                            <div class="detail-card mb-2" style="border-left-color: #8b5cf6;">
-                                <div class="detail-title">Local Database</div>
-                                <div class="detail-value" style="font-size: 18px;">SQLite/PG</div>
-                                <div class="detail-subtitle">Patient data on-site</div>
-                            </div>
-                            <div class="detail-card mb-2">
-                                <div class="detail-title">Offline Mode</div>
-                                <div class="detail-value" style="font-size: 18px;">Supported</div>
-                                <div class="detail-subtitle">Disaster resilience</div>
-                            </div>
-                            <div class="detail-card mb-2">
-                                <div class="detail-title">Data Sovereignty</div>
-                                <div class="detail-value" style="font-size: 16px;">HIPAA</div>
-                                <div class="detail-subtitle">PHI never leaves facility</div>
-                            </div>
-                        </div>
-                    }
+
 
                     @if (selectedNodeDetails.NodeId == "local-database")
                     {
@@ -2252,9 +2195,9 @@
     {
         var titleMap = new Dictionary<string, string>
         {
-            { "medical-devices", "Medical Devices" },
+            { "medical-devices", "Medical Devices + Controller" },
             { "monitoring-center", "Monitoring Center" },
-            { "supply-center", "Supply Center" },
+            { "supply-center", "Supply Center Interface" },
             { "services", "Container Services" },
             { "controller", "Controller" },
             { "edge-gateway", "Edge Gateway" },
@@ -2276,8 +2219,7 @@
             { "global-compliance", "Global Compliance & Audit" },
             { "global-database", "Global Database (Cassandra)" },
             { "regional-database", "Regional Database (PostgreSQL)" },
-            { "treatment-center-layer", "Treatment Center Layer" },
-            { "treatment-center", "Treatment Center" },
+            { "treatment-center-layer", "Treatment Center Interface" },
             { "local-database", "Local Database" }
         };
 

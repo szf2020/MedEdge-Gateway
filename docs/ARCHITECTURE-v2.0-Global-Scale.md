@@ -26,17 +26,17 @@ Based on research from industry leaders and academic sources:
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                           │
 │  ┌─────────────────────┐    ┌──────────────────────┐                    │
-│  │   CLIENT GROUP      │    │   FACILITY GROUP     │                    │
+│  │ CLIENT GROUP (T.C.) │    │   FACILITY GROUP     │                    │
 │  ├─────────────────────┤    ├──────────────────────┤                    │
-│  │ • Medical Devices   │    │ • Treatment Center   │                    │
-│  │ • Monitoring Ctr    │    │   (Hospital/Clinic)  │                    │
-│  │                     │    │                      │                    │
-│  │ [Edge Gateway] ─────┼────┼────► [Edge Gateway]  │                    │
-│  │      Hospital       │    │        Store         │                    │
-│  │         │           │    │         │            │                    │
-│  │         ▼           │    │         ▼            │                    │
-│  │   [MQTT Broker]     │    │   [Local Database]   │                    │
-│  │   (Facility)        │    │   (SQLite/PostgreSQL)│                    │
+│  │ • Med Devices +     │    │                      │                    │
+│  │   Controller        │    │ [Edge Gateway]       │                    │
+│  │ • Monitoring Ctr    │    │        Store         │                    │
+│  │                     │    │         ▲            │                    │
+│  │ [Edge Gateway] ◄────┼────┼─────────┘            │                    │
+│  │      Hospital       │    │                      │                    │
+│  │         ▲           │    │         ▼            │                    │
+│  │         │           │    │   [Local Database]   │                    │
+│  │   [MQTT Broker]     │    │   (SQLite/PostgreSQL)│                    │
 │  └─────────────────────┘    └──────────────────────┘                    │
 │                                                                           │
 │  Database: LOCAL FACILITY DATABASE                                        │
@@ -49,11 +49,11 @@ Based on research from industry leaders and academic sources:
 ```
 
 **Local Services:**
-- **Edge Gateway (Hospital)**: Modbus → MQTT translation, local processing
-- **Edge Gateway (Store)**: API gateway for treatment center supplies
-- **Local MQTT Broker**: Facility-level message routing (Eclipse Mosquitto)
+- **Edge Gateway (Hospital)**: Modbus → MQTT translation, local processing. Connects to Supply Center Interface.
+- **Edge Gateway (Store)**: API gateway for treatment center supplies. Connects to Treatment Center Interface.
+- **Local MQTT Broker**: Facility-level message routing. Connects to Edge Gateway (Hospital).
 - **Local Database**: SQLite for edge devices, PostgreSQL for facilities
-- **Device Controller**: Modbus RTU/TCP controller for medical devices
+- **Medical Devices + Controller**: Integrated Modbus RTU/TCP controller and medical device unit
 - **Monitoring Center UI**: Real-time facility dashboard
 
 **Data Sovereignty:** All patient data remains within facility boundaries per HIPAA/GDPR
@@ -76,17 +76,17 @@ Based on research from industry leaders and academic sources:
 │  └──────────────────────────────────────────────────────────────────┘   │
 │                                                                           │
 │  ┌──────────────────────────────────────────────────────────────────┐   │
-│  │              TREATMENT CENTER LAYER                               │   │
+│  │              TREATMENT CENTER INTERFACE                           │   │
 │  │  • Zone Management (A-F: 6 zones)                                 │   │
 │  │  • Station Coordination (52 stations)                             │   │
-│  │  • Multi-device Synchronization                                  │   │
+│  │  • Connects to [Store] Edge Gateway                               │   │
 │  └──────────────────────────────────────────────────────────────────┘   │
 │                                                                           │
 │  ┌──────────────────────────────────────────────────────────────────┐   │
-│  │              SUPPLY CENTER                                        │   │
+│  │              SUPPLY CENTER INTERFACE                              │   │
 │  │  • Regional Distribution                                         │   │
 │  │  • AI-Powered Demand Forecasting                                 │   │
-│  │  • Vendor Integration                                            │   │
+│  │  • Connects to [Hospital] Edge Gateway                           │   │
 │  └──────────────────────────────────────────────────────────────────┘   │
 │                                                                           │
 │  Database: REGIONAL DATABASE (Clustered)                                  │
