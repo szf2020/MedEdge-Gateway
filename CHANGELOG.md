@@ -5,6 +5,25 @@ All notable changes to the MedEdge-Gateway project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.1] - 2026-02-04
+
+### Added
+
+#### Realistic Medical Device Simulation
+- **Comprehensive Device Parameters**: Replaced simple flow rates with medically accurate parameters
+  - **Infusion Pumps**: Flow Rate (mL/h), Pressure (mmHg), Total Volume Infused (mL)
+  - **Dialysis Machines**: Blood Flow (mL/min), Dialysate Flow (mL/min), Ultrafiltration Rate (mL/h), Treatment Time
+  - **Water Filtration**: Flow Rate (L/h), Pressure (psi), TDS (ppm), Filter Life (%)
+- **Dynamic Simulation Logic**: Enhanced `UpdateVitals` with realistic variation ranges based on AAMI/ISO/IEC standards
+
+### Changed
+
+#### UI Visual Improvements
+- **Contrast Enhancement**: Improved visibility for "AZURE IOT HUB" subgroup label with solid white background and dark blue text
+- **Layout Optimization**: Updated device grid display for better readability of multiple parameters
+
+---
+
 ## [2.2.0] - 2026-02-04
 
 ### Added

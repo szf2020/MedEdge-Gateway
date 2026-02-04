@@ -953,7 +953,7 @@
                 <span>🔒</span>
                 <span>TPM Enabled</span>
             </div>
-            <a href="https://github.com/bejranonda/MedEdge-Gateway" target="_blank" class="version-badge" style="text-decoration: none; cursor: pointer;">v2.1.1</a>
+            <a href="https://github.com/bejranonda/MedEdge-Gateway" target="_blank" class="version-badge" style="text-decoration: none; cursor: pointer;">v2.2.1</a>
             <div class="realtime-badge">
                 <span class="live-dot"></span>
                 <span>LIVE</span>
@@ -1177,7 +1177,7 @@
 
                             <!-- Azure IoT Hub (Central Regional Hub) -->
                             <div class="subgroup-container" style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); border: 2px solid #60a5fa; margin: 16px 0;">
-                                <div class="subgroup-label" style="color: #ffffff !important; background: transparent !important; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">🔷 AZURE IOT HUB (Central Regional Hub)</div>
+                                <div class="subgroup-label" style="color: #1e40af !important; background: #ffffff !important; font-weight: 800; border: 1px solid #60a5fa; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">🔷 AZURE IOT HUB (Central Regional Hub)</div>
                                 <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; padding: 12px;">
                                     <div class="workflow-node @(GetNodeStatus("azure-iot-hub"))" @onclick="@(() => ShowNodeDetails("azure-iot-hub"))" style="background: rgba(255,255,255,0.95); min-width: 200px;">
                                         <div class="node-icon" style="background: #0078d4;">
@@ -1294,42 +1294,77 @@
                                             <div class="subgroup-label" style="color: #a855f7; font-size: 11px; font-weight: 600; margin-bottom: 8px;">🔧 Devices</div>
                                             <div style="display: flex; flex-direction: column; gap: 8px;">
                                                 <!-- Infusion Pumps -->
-                                                <div class="workflow-node" style="padding: 8px; background: rgba(255,255,255,0.9);">
-                                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                                        <div style="flex: 1;">
-                                                            <div class="node-name" style="font-size: 12px;">💉 Infusion Pumps</div>
-                                                            <div class="node-status" style="font-size: 10px;">
-                                                                <span class="status-dot healthy"></span>
-                                                                @infusionPumpCount units • Flow: @infusionFlowRate ml/min
-                                                            </div>
+                                                <div class="workflow-node" style="padding: 10px; background: rgba(255,255,255,0.9);">
+                                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                                        <div class="node-name" style="font-size: 12px; font-weight: 600;">💉 Infusion Pumps (@infusionPumpCount units)</div>
+                                                        <span class="status-dot healthy"></span>
+                                                    </div>
+                                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 10px;">
+                                                        <div>
+                                                            <div style="color: #64748b;">Flow Rate</div>
+                                                            <div style="font-weight: 600; color: #a855f7;">@infusionFlowRate mL/h</div>
                                                         </div>
-                                                        <MudChart ChartType="ChartType.Bar" InputData="@infusionPumpChartData" ChartOptions="@(new ChartOptions{ ChartPalette = new[] { "#a855f7" } })" Width="60px" Height="30px" />
+                                                        <div>
+                                                            <div style="color: #64748b;">Pressure</div>
+                                                            <div style="font-weight: 600; color: #a855f7;">@infusionPressure mmHg</div>
+                                                        </div>
+                                                        <div>
+                                                            <div style="color: #64748b;">Volume</div>
+                                                            <div style="font-weight: 600; color: #a855f7;">@infusionVolume mL</div>
+                                                        </div>
+                                                        <div style="display: flex; align-items: flex-end;">
+                                                            <MudChart ChartType="ChartType.Bar" InputData="@infusionPumpChartData" ChartOptions="@(new ChartOptions{ ChartPalette = new[] { "#a855f7" } })" Width="60px" Height="25px" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <!-- Dialysis Machines -->
-                                                <div class="workflow-node" style="padding: 8px; background: rgba(255,255,255,0.9);">
-                                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                                        <div style="flex: 1;">
-                                                            <div class="node-name" style="font-size: 12px;">🩺 Dialysis Machines</div>
-                                                            <div class="node-status" style="font-size: 10px;">
-                                                                <span class="status-dot healthy"></span>
-                                                                @dialysisMachineCount units • Flow: @dialysisFlowRate ml/min
-                                                            </div>
+                                                <div class="workflow-node" style="padding: 10px; background: rgba(255,255,255,0.9);">
+                                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                                        <div class="node-name" style="font-size: 12px; font-weight: 600;">🩺 Dialysis Machines (@dialysisMachineCount units)</div>
+                                                        <span class="status-dot healthy"></span>
+                                                    </div>
+                                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 10px;">
+                                                        <div>
+                                                            <div style="color: #64748b;">Blood Flow</div>
+                                                            <div style="font-weight: 600; color: #a855f7;">@dialysisBloodFlow mL/min</div>
                                                         </div>
-                                                        <MudChart ChartType="ChartType.Bar" InputData="@dialysisMachineChartData" ChartOptions="@(new ChartOptions{ ChartPalette = new[] { "#a855f7" } })" Width="60px" Height="30px" />
+                                                        <div>
+                                                            <div style="color: #64748b;">Dialysate Flow</div>
+                                                            <div style="font-weight: 600; color: #a855f7;">@dialysisDialysateFlow mL/min</div>
+                                                        </div>
+                                                        <div>
+                                                            <div style="color: #64748b;">UF Rate</div>
+                                                            <div style="font-weight: 600; color: #a855f7;">@dialysisUFRate mL/h</div>
+                                                        </div>
+                                                        <div>
+                                                            <div style="color: #64748b;">Treatment</div>
+                                                            <div style="font-weight: 600; color: #a855f7;">@dialysisTreatmentTime min</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <!-- Water Filtration Systems -->
-                                                <div class="workflow-node" style="padding: 8px; background: rgba(255,255,255,0.9);">
-                                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                                        <div style="flex: 1;">
-                                                            <div class="node-name" style="font-size: 12px;">💧 Water Filtration</div>
-                                                            <div class="node-status" style="font-size: 10px;">
-                                                                <span class="status-dot healthy"></span>
-                                                                @waterFiltrationCount units • Flow: @filtrationFlowRate L/min
-                                                            </div>
+                                                <div class="workflow-node" style="padding: 10px; background: rgba(255,255,255,0.9);">
+                                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                                        <div class="node-name" style="font-size: 12px; font-weight: 600;">💧 Water Filtration (@waterFiltrationCount units)</div>
+                                                        <span class="status-dot healthy"></span>
+                                                    </div>
+                                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 10px;">
+                                                        <div>
+                                                            <div style="color: #64748b;">Flow Rate</div>
+                                                            <div style="font-weight: 600; color: #a855f7;">@filtrationFlowRate L/h</div>
                                                         </div>
-                                                        <MudChart ChartType="ChartType.Bar" InputData="@waterFiltrationChartData" ChartOptions="@(new ChartOptions{ ChartPalette = new[] { "#a855f7" } })" Width="60px" Height="30px" />
+                                                        <div>
+                                                            <div style="color: #64748b;">Pressure</div>
+                                                            <div style="font-weight: 600; color: #a855f7;">@filtrationPressure psi</div>
+                                                        </div>
+                                                        <div>
+                                                            <div style="color: #64748b;">TDS</div>
+                                                            <div style="font-weight: 600; color: #a855f7;">@filtrationTDS ppm</div>
+                                                        </div>
+                                                        <div>
+                                                            <div style="color: #64748b;">Filter Life</div>
+                                                            <div style="font-weight: 600; color: #a855f7;">@filtrationFilterLife%</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2090,18 +2125,32 @@
     private double[] ServiceChartDataInput => new double[] { healthyServices, unhealthyServices };
     private string[] ServiceChartLabels => new string[] { "Healthy", "Unhealthy" };
 
-    // Device counts and flow rates
+    // Device counts and parameters
     private int infusionPumpCount = 8;
     private int dialysisMachineCount = 5;
     private int waterFiltrationCount = 3;
-    private string infusionFlowRate = "125";
-    private string dialysisFlowRate = "350";
-    private string filtrationFlowRate = "2.5";
+    
+    // Infusion Pump parameters
+    private string infusionFlowRate = "125";      // mL/h
+    private string infusionPressure = "250";      // mmHg
+    private string infusionVolume = "450";        // mL total infused
+    
+    // Dialysis Machine parameters
+    private string dialysisBloodFlow = "350";     // mL/min
+    private string dialysisDialysateFlow = "600"; // mL/min
+    private string dialysisUFRate = "750";        // mL/h (ultrafiltration rate)
+    private int dialysisTreatmentTime = 145;      // minutes
+    
+    // Water Filtration parameters
+    private string filtrationFlowRate = "1500";   // L/h
+    private string filtrationPressure = "50";     // psi
+    private string filtrationTDS = "5";           // ppm (Total Dissolved Solids)
+    private int filtrationFilterLife = 85;        // percentage
 
     // Device mini bar charts — InputData double[]
     private double[] infusionPumpChartData => new double[] { 80, 95, 110, 125, 100, 90 };
     private double[] dialysisMachineChartData => new double[] { 300, 320, 350, 340, 360, 350 };
-    private double[] waterFiltrationChartData => new double[] { 2.2, 2.4, 2.5, 2.5, 2.4, 2.5 };
+    private double[] waterFiltrationChartData => new double[] { 1400, 1450, 1500, 1480, 1520, 1500 };
 
     // Throughput bar chart — InputData double[] and InputLabels string[]
     private double[] throughputChartData => new double[] {
@@ -2417,12 +2466,62 @@
             }
         }
 
+        // Update vitals data
         bloodFlow = 300 + random.Next(-30, 50);
         arterialPressure = 110 + random.Next(-20, 30);
         venousPressure = 75 + random.Next(-15, 25);
         temperature = 36.3 + random.Next(-3, 7) * 0.1;
         conductivity = 13.8 + random.Next(-4, 6) * 0.1;
         treatmentTime += 3;
+        
+        // Update Infusion Pump parameters
+        // Flow rate: 50-500 mL/h (typical range for various medications)
+        var baseInfusionFlow = 125;
+        infusionFlowRate = (baseInfusionFlow + random.Next(-40, 60)).ToString();
+        
+        // Pressure: 100-400 mmHg (normal operating range)
+        var baseInfusionPressure = 250;
+        infusionPressure = (baseInfusionPressure + random.Next(-50, 80)).ToString();
+        
+        // Volume: incrementing total infused volume
+        var currentVolume = int.Parse(infusionVolume);
+        infusionVolume = (currentVolume + random.Next(1, 5)).ToString();
+        
+        // Update Dialysis Machine parameters
+        // Blood flow: 300-450 mL/min (typical for adult hemodialysis)
+        var baseBloodFlow = 350;
+        dialysisBloodFlow = (baseBloodFlow + random.Next(-40, 60)).ToString();
+        
+        // Dialysate flow: 500-700 mL/min (standard range)
+        var baseDialysateFlow = 600;
+        dialysisDialysateFlow = (baseDialysateFlow + random.Next(-50, 70)).ToString();
+        
+        // Ultrafiltration rate: 600-900 mL/h (safe range, <13 mL/h/kg for 70kg patient)
+        var baseUFRate = 750;
+        dialysisUFRate = (baseUFRate + random.Next(-100, 120)).ToString();
+        
+        // Treatment time: incrementing
+        dialysisTreatmentTime += 1;
+        if (dialysisTreatmentTime > 240) dialysisTreatmentTime = 0; // Reset after 4 hours
+        
+        // Update Water Filtration parameters
+        // Flow rate: 1200-1800 L/h (for 3 units @ ~800 mL/min each)
+        var baseWaterFlow = 1500;
+        filtrationFlowRate = (baseWaterFlow + random.Next(-200, 250)).ToString();
+        
+        // Pressure: 40-60 psi (typical RO operating pressure)
+        var basePressure = 50;
+        filtrationPressure = (basePressure + random.Next(-8, 10)).ToString();
+        
+        // TDS: 3-8 ppm (well below 10 ppm requirement for dialysis water)
+        var baseTDS = 5;
+        filtrationTDS = (baseTDS + random.Next(-2, 3)).ToString();
+        
+        // Filter life: slowly decreasing
+        if (random.Next(100) < 5) // 5% chance to decrease
+        {
+            filtrationFilterLife = Math.Max(50, filtrationFilterLife - 1);
+        }
     }
 
     private async Task CheckServiceHealth()

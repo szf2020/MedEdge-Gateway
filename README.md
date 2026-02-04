@@ -16,14 +16,14 @@ A production-grade global-scale platform demonstrating:
 
 ## 🎯 Project Status
 
-**✅ v2.2.0 RELEASED - Azure IoT Hub Integration**
+**✅ v2.2.1 RELEASED - Realistic Device Simulation**
 
-**Latest Update: Real Azure IoT Hub Connectivity**
-- ✅ Edge Gateway connects to Azure IoT Hub (Regional tier)
-- ✅ Dual publishing: Local MQTT + Azure IoT Hub simultaneously
-- ✅ Device Twin support for cloud-to-device configuration
+**Latest Update: Realistic Medical Device Simulation**
+- ✅ Medically accurate parameters for Infusion Pumps, Dialysis & Filtration
+- ✅ Dynamic simulation logic based on AAMI/ISO/IEC standards
+- ✅ Improved UI contrast for Azure IoT Hub regional components
+- ✅ Real Azure IoT Hub connectivity and Device Twin support
 - ✅ Direct Methods: EmergencyStop, Reboot, GetDiagnostics
-- ✅ Treatment Center & Supply Center logical interfaces
 
 **Phase 1: FHIR API Foundation** - ✅ COMPLETE
 - ✅ Clean Architecture (9 projects, 3-layer design)
@@ -194,11 +194,12 @@ Local Edge Models → Regional Aggregation → Global Training
 
 ## 🎨 Dashboard Features
 
-### System Dashboard (v2.2.0)
-- **Azure IoT Hub Visualization**: Prominent blue gradient component in Regional tier
-  - Shows hub name and real-time connection status
-  - Treatment Center & Supply Center interfaces displayed as logical groupings
-  - Clickable detail panel with hub info, features, and direct methods
+- **System Dashboard (v2.2.1)**
+  - **Realistic Medical Device Simulation**: 💉 Infusion Pumps (mL/h, mmHg), 🩺 Dialysis (mL/min, UF rate), 💧 Filtration (L/h, TDS)
+  - **Dynamic Simulation**: Values update every 3 seconds with medically accurate variation ranges
+  - **Azure IoT Hub Visualization**: High-contrast blue gradient component in Regional tier
+    - Shows hub name and real-time connection status
+    - Treatment Center & Supply Center interfaces displayed as logical groupings
 - **Interactive Donut Charts**: Visual status indicators for Devices, Supply, and Services
   - Total Devices: Online/Offline/Defective breakdown with color-coded segments
   - Supply Center: Good/Low/Critical inventory levels with status visualization
@@ -370,6 +371,6 @@ Built as a portfolio project demonstrating expertise in:
 
 ---
 
-**Current Version:** v2.2.0
+**Current Version:** v2.2.1
 **Last Updated:** 2026-02-04
-**Status:** Production Ready - Azure IoT Hub Integration
+**Status:** Production Ready - Realistic Device Simulation
